@@ -1,6 +1,6 @@
 // Bump this version string every time you deploy an update.
 // Changing it forces old caches to be deleted and fresh files to be fetched.
-const CACHE_VERSION = 'jsj-v2';
+const CACHE_VERSION = 'jsj-v3';
 const ASSETS = ['./index.html', './manifest.json', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {

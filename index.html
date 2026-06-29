@@ -559,12 +559,32 @@ select option{background:#fff;color:var(--color-text-primary);}
     <div class="step active" id="step-1"></div>
     <div class="step" id="step-2"></div>
     <div class="step" id="step-3"></div>
-    <div class="step" id="step-4"></div>
-    <div class="step" id="step-5"></div>
-    <div class="step" id="step-6"></div>
   </div>
 
   <div id="sec-1">
+    <div class="card">
+      <div class="card-title" style="margin-top:0;"><span>📋</span> Job Details</div>
+      <div class="row2">
+        <div>
+          <label>Client name (optional)</label>
+          <input type="text" id="job-client-leak" placeholder="Client name"/>
+        </div>
+        <div>
+          <label>Property address (optional)</label>
+          <input type="text" id="job-address-leak" placeholder="Property address"/>
+        </div>
+      </div>
+      <div class="row2" style="margin-top:10px;">
+        <div>
+          <label>Technician name (optional)</label>
+          <input type="text" id="job-tech-leak" placeholder="Technician name"/>
+        </div>
+        <div>
+          <label>Inspection date/time</label>
+          <input type="datetime-local" id="job-datetime-leak"/>
+        </div>
+      </div>
+    </div>
     <div class="section-heading">Liaised with resident?</div>
     <div class="section-sub">Did you speak with the resident on site?</div>
     <div class="yn-group">
@@ -577,9 +597,10 @@ select option{background:#fff;color:var(--color-text-primary);}
   </div>
 
   <div id="sec-2" class="hidden">
-    <div class="section-heading">Roof access</div>
-    <div class="section-sub">How was roof access gained?</div>
+    <div class="section-heading">Site Assessment</div>
+    <div class="section-sub">Record access, leak location, observations and works completed</div>
     <div class="card">
+      <div class="card-title" style="margin-top:0;"><span>🪜</span> Roof access</div>
       <label>Access type</label>
       <select id="access-type">
         <option value="single storey">Single storey</option>
@@ -597,50 +618,29 @@ select option{background:#fff;color:var(--color-text-primary);}
         <input type="text" id="difficult-reason" placeholder="e.g. steep pitch, heritage roof, confined space"/>
       </div>
     </div>
-    <div class="btn-group">
-      <button class="btn btn-secondary" onclick="goSec(1)">← Back</button>
-      <button class="btn btn-primary" onclick="goSec(3)">Next →</button>
-    </div>
-  </div>
 
-  <div id="sec-3" class="hidden">
-    <div class="section-heading">Leak location</div>
-    <div class="section-sub">Where was the leak reported? (select all that apply)</div>
     <div class="card">
+      <div class="card-title" style="margin-top:0;"><span>📍</span> Leak location</div>
       <div class="check-grid" id="location-checks"></div>
       <label style="margin-top:12px;">Other location / additional notes</label>
       <input type="text" id="location-other" placeholder="e.g. master bedroom, north-facing wall"/>
     </div>
-    <div class="btn-group">
-      <button class="btn btn-secondary" onclick="goSec(2)">← Back</button>
-      <button class="btn btn-primary" onclick="goSec(4)">Next →</button>
-    </div>
-  </div>
 
-  <div id="sec-4" class="hidden">
-    <div class="section-heading">Observations / Issues</div>
-    <div class="section-sub">What was found on the roof? (select all that apply)</div>
     <div class="card">
+      <div class="card-title" style="margin-top:0;"><span>🔎</span> Observations / Issues</div>
       <div class="check-grid" id="obs-checks"></div>
       <label style="margin-top:12px;">Additional observations / notes</label>
       <textarea id="obs-other" placeholder="e.g. minor leak at aerial anchor penetration, debris build up underneath valley tiles..."></textarea>
     </div>
-    <div class="btn-group">
-      <button class="btn btn-secondary" onclick="goSec(3)">← Back</button>
-      <button class="btn btn-primary" onclick="goSec(5)">Next →</button>
-    </div>
-  </div>
 
-  <div id="sec-5" class="hidden">
-    <div class="section-heading">Works completed</div>
-    <div class="section-sub">What was done on site today? (select all that apply)</div>
     <div class="card">
+      <div class="card-title" style="margin-top:0;"><span>🔧</span> Works completed</div>
       <div class="check-grid" id="works-checks"></div>
       <label style="margin-top:12px;">Additional works / notes</label>
       <textarea id="works-other" placeholder="e.g. applied temporary flashing to front valley pending further repairs..."></textarea>
     </div>
     <div class="btn-group">
-      <button class="btn btn-secondary" onclick="goSec(4)">← Back</button>
+      <button class="btn btn-secondary" onclick="goSec(1)">← Back</button>
       <button class="btn btn-primary" onclick="goSec(6)">Next →</button>
     </div>
   </div>
@@ -746,7 +746,7 @@ select option{background:#fff;color:var(--color-text-primary);}
     </div>
 
     <div class="btn-group" style="margin-top:16px;">
-      <button class="btn btn-secondary" onclick="goSec(5)">← Back</button>
+      <button class="btn btn-secondary" onclick="goSec(2)">← Back</button>
       <button class="btn btn-green" onclick="generateReport()">▶ Generate Report</button>
     </div>
   </div>
@@ -824,7 +824,7 @@ select option{background:#fff;color:var(--color-text-primary);}
       <div style="display:flex;align-items:center;gap:10px;margin-top:6px;">
         <div style="display:flex;align-items:center;gap:0;flex:1;max-width:200px;">
           <span style="background:var(--color-surface-secondary);border:1.5px solid var(--color-border-light);border-right:none;border-radius:var(--radius-md) 0 0 var(--radius-md);padding:10px 14px;font-size:16px;font-weight:600;color:var(--color-text-secondary);">$</span>
-          <input type="number" id="labour-rate-input-hub" min="1" step="1" placeholder="400"
+          <input type="number" id="labour-rate-input-hub" min="1" step="1" placeholder="404"
             style="border-radius:0 var(--radius-md) var(--radius-md) 0;border-left:none;flex:1;"
             onchange="saveLabourRate('-hub')" oninput="saveLabourRate('-hub')"/>
         </div>
@@ -894,6 +894,29 @@ select option{background:#fff;color:var(--color-text-primary);}
     </div>
   </div>
 
+  <!-- Rubbish Cost (hidden from field staff — folded into every quote total) -->
+  <div class="admin-section" style="margin-bottom:16px;">
+    <div class="admin-section-header">
+      <div>
+        <div class="admin-section-title">🗑 Rubbish Cost</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px;">Flat cost folded into every quote total — never shown as its own line to field staff</div>
+      </div>
+    </div>
+    <div style="padding:16px;">
+      <label style="margin-top:0;">Rubbish cost per quote ($)</label>
+      <div style="display:flex;align-items:center;gap:10px;margin-top:6px;">
+        <div style="display:flex;align-items:center;gap:0;flex:1;max-width:200px;">
+          <span style="background:var(--color-surface-secondary);border:1.5px solid var(--color-border-light);border-right:none;border-radius:var(--radius-md) 0 0 var(--radius-md);padding:10px 14px;font-size:16px;font-weight:600;color:var(--color-text-secondary);">$</span>
+          <input type="number" id="rubbish-cost-rate-input-hub" min="0" step="1" placeholder="64"
+            style="border-radius:0 var(--radius-md) var(--radius-md) 0;border-left:none;flex:1;"
+            onchange="saveRubbishCostRate('-hub')" oninput="saveRubbishCostRate('-hub')"/>
+        </div>
+        <span style="font-size:13px;color:var(--color-text-secondary);">per quote</span>
+      </div>
+      <div id="rubbish-cost-rate-preview-hub" style="margin-top:10px;font-size:13px;color:var(--color-text-secondary);background:var(--color-surface-secondary);border:1px solid var(--color-border-light);border-radius:var(--radius-md);padding:10px 14px;line-height:1.6;"></div>
+    </div>
+  </div>
+
   <!-- AI Polish Proxy (applies across all report outputs) -->
   <div class="admin-section" style="margin-bottom:16px;">
     <div class="admin-section-header">
@@ -956,8 +979,6 @@ select option{background:#fff;color:var(--color-text-primary);}
     <div class="step" id="gc-step-1"></div>
     <div class="step" id="gc-step-2"></div>
     <div class="step" id="gc-step-3"></div>
-    <div class="step" id="gc-step-4"></div>
-    <div class="step" id="gc-step-5"></div>
   </div>
 
   <!-- STEP 0: Quote type -->
@@ -985,8 +1006,31 @@ select option{background:#fff;color:var(--color-text-primary);}
 
   <!-- STEP R1: Roof Report only — access & roof type -->
   <div id="gc-sec-r1" class="hidden">
-    <div class="section-heading">Roof & access</div>
-    <div class="section-sub">Select the roof type and access method</div>
+    <div class="section-heading">Job Details</div>
+    <div class="section-sub">Record the optional header details, roof type and access method</div>
+    <div class="card">
+      <div class="card-title" style="margin-top:0;"><span>📋</span> Job Details</div>
+      <div class="row2">
+        <div>
+          <label>Client name (optional)</label>
+          <input type="text" id="job-client-gutter-rr" placeholder="Client name"/>
+        </div>
+        <div>
+          <label>Property address (optional)</label>
+          <input type="text" id="job-address-gutter-rr" placeholder="Property address"/>
+        </div>
+      </div>
+      <div class="row2" style="margin-top:10px;">
+        <div>
+          <label>Technician name (optional)</label>
+          <input type="text" id="job-tech-gutter-rr" placeholder="Technician name"/>
+        </div>
+        <div>
+          <label>Inspection date/time</label>
+          <input type="datetime-local" id="job-datetime-gutter-rr"/>
+        </div>
+      </div>
+    </div>
     <div class="card">
       <div class="card-title"><span>🏠</span> Roof type</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;">
@@ -1038,41 +1082,57 @@ select option{background:#fff;color:var(--color-text-primary);}
     </div>
   </div>
 
-  <!-- STEP 1: Gutter screen type -->
+  <!-- STEP 1: Job, gutter screen, roof type & access -->
   <div id="gc-sec-1" class="hidden">
-    <div class="section-heading">Gutter screen</div>
-    <div class="section-sub">What is the current leaf screen situation?</div>
-    <div style="display:flex;flex-direction:column;gap:10px;">
-      <button class="gc-option-btn" id="gc-screen-none" onclick="setGCScreen('none')">
-        <span class="gc-option-icon">🌿</span>
-        <div><div class="gc-option-title">No leaf screen</div><div class="gc-option-desc">Open gutters, full clean required</div></div>
-      </button>
-      <button class="gc-option-btn" id="gc-screen-partial" onclick="setGCScreen('partial')">
-        <span class="gc-option-icon">🔶</span>
-        <div><div class="gc-option-title">Partly leaf screened</div><div class="gc-option-desc">Some sections have screening</div></div>
-      </button>
-      <button class="gc-option-btn" id="gc-screen-full" onclick="setGCScreen('full')">
-        <span class="gc-option-icon">✅</span>
-        <div><div class="gc-option-title">Fully leaf screened</div><div class="gc-option-desc">All gutters screened, top clean only</div></div>
-      </button>
-      <button class="gc-option-btn" id="gc-screen-full-debris" onclick="setGCScreen('full-debris')">
-        <span class="gc-option-icon">⚠️</span>
+    <div class="section-heading">Job Details</div>
+    <div class="section-sub">Record optional header details, gutter screen, roof type and access method</div>
+    <div class="card">
+      <div class="card-title" style="margin-top:0;"><span>📋</span> Job Details</div>
+      <div class="row2">
         <div>
-          <div class="gc-option-title">Fully screened — debris filled</div>
-          <div class="gc-option-desc">Screens filled with debris — generates 2 quotes: top clean only + flip, clean & reinstall</div>
+          <label>Client name (optional)</label>
+          <input type="text" id="job-client-gutter" placeholder="Client name"/>
         </div>
-      </button>
+        <div>
+          <label>Property address (optional)</label>
+          <input type="text" id="job-address-gutter" placeholder="Property address"/>
+        </div>
+      </div>
+      <div class="row2" style="margin-top:10px;">
+        <div>
+          <label>Technician name (optional)</label>
+          <input type="text" id="job-tech-gutter" placeholder="Technician name"/>
+        </div>
+        <div>
+          <label>Inspection date/time</label>
+          <input type="datetime-local" id="job-datetime-gutter"/>
+        </div>
+      </div>
     </div>
-    <div class="btn-group" style="margin-top:20px;">
-      <button class="btn btn-secondary" onclick="gcGoSec(0)">← Back</button>
-      <button class="btn btn-primary" onclick="gcGoSec(2)">Next →</button>
+    <div class="card">
+      <div class="card-title" style="margin-top:0;"><span>🌿</span> Gutter screen</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <button class="gc-option-btn" id="gc-screen-none" onclick="setGCScreen('none')">
+          <span class="gc-option-icon">🌿</span>
+          <div><div class="gc-option-title">No leaf screen</div><div class="gc-option-desc">Open gutters, full clean required</div></div>
+        </button>
+        <button class="gc-option-btn" id="gc-screen-partial" onclick="setGCScreen('partial')">
+          <span class="gc-option-icon">🔶</span>
+          <div><div class="gc-option-title">Partly leaf screened</div><div class="gc-option-desc">Some sections have screening</div></div>
+        </button>
+        <button class="gc-option-btn" id="gc-screen-full" onclick="setGCScreen('full')">
+          <span class="gc-option-icon">✅</span>
+          <div><div class="gc-option-title">Fully leaf screened</div><div class="gc-option-desc">All gutters screened, top clean only</div></div>
+        </button>
+        <button class="gc-option-btn" id="gc-screen-full-debris" onclick="setGCScreen('full-debris')">
+          <span class="gc-option-icon">⚠️</span>
+          <div>
+            <div class="gc-option-title">Fully screened — debris filled</div>
+            <div class="gc-option-desc">Screens filled with debris — generates 2 quotes: top clean only + flip, clean & reinstall</div>
+          </div>
+        </button>
+      </div>
     </div>
-  </div>
-
-  <!-- STEP 2: Roof type & access -->
-  <div id="gc-sec-2" class="hidden">
-    <div class="section-heading">Roof & access</div>
-    <div class="section-sub">Select the roof type and access method</div>
     <div class="card">
       <div class="card-title"><span>🏠</span> Roof type</div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;">
@@ -1090,10 +1150,12 @@ select option{background:#fff;color:var(--color-text-primary);}
       </div>
     </div>
     <div class="btn-group">
-      <button class="btn btn-secondary" onclick="gcGoSec(1)">← Back</button>
+      <button class="btn btn-secondary" onclick="gcGoSec(0)">← Back</button>
       <button class="btn btn-primary" onclick="gcGoSec(3)">Next →</button>
     </div>
   </div>
+
+  <div id="gc-sec-2" class="hidden"></div>
 
   <!-- STEP 3: Labour (Quote 1) -->
   <div id="gc-sec-3" class="hidden">
@@ -1147,7 +1209,7 @@ select option{background:#fff;color:var(--color-text-primary);}
     </div>
 
     <div class="btn-group">
-      <button class="btn btn-secondary" onclick="gcGoSec(2)">← Back</button>
+      <button class="btn btn-secondary" onclick="gcGoSec(1)">← Back</button>
       <button class="btn btn-primary" onclick="gcGoSec(4)">Next →</button>
     </div>
   </div>
@@ -1296,6 +1358,29 @@ select option{background:#fff;color:var(--color-text-primary);}
 
   <!-- STEP 1: Roof type -->
   <div id="ri-sec-1">
+    <div class="card">
+      <div class="card-title" style="margin-top:0;"><span>📋</span> Job Details</div>
+      <div class="row2">
+        <div>
+          <label>Client name (optional)</label>
+          <input type="text" id="job-client-ri" placeholder="Client name"/>
+        </div>
+        <div>
+          <label>Property address (optional)</label>
+          <input type="text" id="job-address-ri" placeholder="Property address"/>
+        </div>
+      </div>
+      <div class="row2" style="margin-top:10px;">
+        <div>
+          <label>Technician name (optional)</label>
+          <input type="text" id="job-tech-ri" placeholder="Technician name"/>
+        </div>
+        <div>
+          <label>Inspection date/time</label>
+          <input type="datetime-local" id="job-datetime-ri"/>
+        </div>
+      </div>
+    </div>
     <div class="section-heading">Roof type</div>
     <div class="section-sub">What type of roof is being inspected?</div>
     <div style="display:flex;flex-direction:column;gap:10px;">
@@ -1475,6 +1560,29 @@ select option{background:#fff;color:var(--color-text-primary);}
 
   <!-- STEP 0: report type -->
   <div id="gr-sec-0">
+    <div class="card">
+      <div class="card-title" style="margin-top:0;"><span>📋</span> Job Details</div>
+      <div class="row2">
+        <div>
+          <label>Client name (optional)</label>
+          <input type="text" id="job-client-gr" placeholder="Client name"/>
+        </div>
+        <div>
+          <label>Property address (optional)</label>
+          <input type="text" id="job-address-gr" placeholder="Property address"/>
+        </div>
+      </div>
+      <div class="row2" style="margin-top:10px;">
+        <div>
+          <label>Technician name (optional)</label>
+          <input type="text" id="job-tech-gr" placeholder="Technician name"/>
+        </div>
+        <div>
+          <label>Inspection date/time</label>
+          <input type="datetime-local" id="job-datetime-gr"/>
+        </div>
+      </div>
+    </div>
     <div class="section-heading">What's being completed?</div>
     <div class="section-sub">Select what was carried out today</div>
     <div style="display:flex;flex-direction:column;gap:10px;">
@@ -1714,7 +1822,7 @@ select option{background:#fff;color:var(--color-text-primary);}
       <div style="display:flex;align-items:center;gap:10px;margin-top:6px;">
         <div style="display:flex;align-items:center;gap:0;flex:1;max-width:200px;">
           <span style="background:var(--color-surface-secondary);border:1.5px solid var(--color-border-light);border-right:none;border-radius:var(--radius-md) 0 0 var(--radius-md);padding:10px 14px;font-size:16px;font-weight:600;color:var(--color-text-secondary);">$</span>
-          <input type="number" id="labour-rate-input" min="1" step="1" placeholder="400"
+          <input type="number" id="labour-rate-input" min="1" step="1" placeholder="404"
             style="border-radius:0 var(--radius-md) var(--radius-md) 0;border-left:none;flex:1;"
             onchange="saveLabourRate()" oninput="saveLabourRate()"/>
         </div>
@@ -1890,6 +1998,10 @@ const DEFAULT_REPAIRS = [
   'Corroded/rusted roof sheet','Loose or missing screw fixings',
   'Failed/deteriorated ridge capping','Failed flashing',
   'Failed sealant at roof penetration',
+  'Box gutter replacement','Sump replacement','Custom flashing',
+  'Klip-Lok sheet replacement','Corrugated sheet replacement',
+  'Apron flashing','Barge flashing','Parapet flashing',
+  'Rusted box gutter','Failed box gutter outlet','Overflow provision',
   'Other (manual entry)'
 ];
 
@@ -1901,8 +2013,68 @@ function saveCustom(key, arr) {
   localStorage.setItem('jsj_custom_'+key, JSON.stringify(arr));
 }
 
+// ==================== JOB DETAILS / REPORT HEADERS ====================
+function currentDateTimeLocalValue(date) {
+  const d = date || new Date();
+  const pad = n => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
+function normalizeJobDetails(details) {
+  const d = details || {};
+  return {
+    clientName: (d.clientName || '').trim(),
+    propertyAddress: (d.propertyAddress || '').trim(),
+    technicianName: (d.technicianName || '').trim(),
+    inspectionDateTime: (d.inspectionDateTime || '').trim()
+  };
+}
+
+function setJobDetailsFields(prefix, details) {
+  const d = normalizeJobDetails(details);
+  const setVal = (id, val) => {
+    const el = document.getElementById(id);
+    if(el) el.value = val;
+  };
+  setVal(`job-client-${prefix}`, d.clientName);
+  setVal(`job-address-${prefix}`, d.propertyAddress);
+  setVal(`job-tech-${prefix}`, d.technicianName);
+  setVal(`job-datetime-${prefix}`, d.inspectionDateTime || currentDateTimeLocalValue());
+}
+
+function resetJobDetails(prefix) {
+  setJobDetailsFields(prefix, { inspectionDateTime: currentDateTimeLocalValue() });
+}
+
+function getJobDetails(prefix) {
+  const read = id => (document.getElementById(id)?.value || '').trim();
+  return normalizeJobDetails({
+    clientName: read(`job-client-${prefix}`),
+    propertyAddress: read(`job-address-${prefix}`),
+    technicianName: read(`job-tech-${prefix}`),
+    inspectionDateTime: read(`job-datetime-${prefix}`)
+  });
+}
+
+function formatJobDateTime(value) {
+  if(!value) return '';
+  const d = new Date(value);
+  if(isNaN(d.getTime())) return value;
+  return d.toLocaleString('en-AU', { dateStyle: 'medium', timeStyle: 'short' });
+}
+
+function buildReportHeader(title, details) {
+  const d = normalizeJobDetails(details);
+  const lines = ['JSJ Roofing', title];
+  if(d.clientName) lines.push(`Client: ${d.clientName}`);
+  if(d.propertyAddress) lines.push(`Property: ${d.propertyAddress}`);
+  if(d.technicianName) lines.push(`Technician: ${d.technicianName}`);
+  if(d.inspectionDateTime) lines.push(`Inspection date/time: ${formatJobDateTime(d.inspectionDateTime)}`);
+  return lines.join('\n') + '\n\n';
+}
+
 // ==================== LABOUR RATE ====================
-const DEFAULT_LABOUR_RATE = 400;
+const DEFAULT_LABOUR_RATE = 404;
 
 function getLabourRate() {
   const stored = parseFloat(localStorage.getItem('jsj_labour_rate'));
@@ -1944,6 +2116,7 @@ function hoursToDays(hours) {
 
 const DEFAULT_ADMIN_COST_RATE = 127;
 const DEFAULT_HARNESS_COST_RATE = 160;
+const DEFAULT_RUBBISH_COST_RATE = 64;
 
 function getAdminCostRate() {
   const stored = parseFloat(localStorage.getItem('jsj_admin_cost_rate'));
@@ -1953,11 +2126,16 @@ function getHarnessCostRate() {
   const stored = parseFloat(localStorage.getItem('jsj_harness_cost_rate'));
   return (!isNaN(stored) && stored > 0) ? stored : DEFAULT_HARNESS_COST_RATE;
 }
+function getRubbishCostRate() {
+  const stored = parseFloat(localStorage.getItem('jsj_rubbish_cost_rate'));
+  return (!isNaN(stored) && stored >= 0) ? stored : DEFAULT_RUBBISH_COST_RATE;
+}
 
 /**
  * Admin cost is flat per day, regardless of tradesmen count.
  * Harness cost is per tradesman, per day.
- * Both are hidden from field staff — only ever folded into a grand total,
+ * Rubbish cost is a flat per-quote overhead.
+ * These are hidden from field staff — only ever folded into a grand total,
  * never shown as their own line item outside the admin breakdown.
  */
 function calcAdminCost(hours) {
@@ -1965,6 +2143,20 @@ function calcAdminCost(hours) {
 }
 function calcHarnessCost(men, hours) {
   return getHarnessCostRate() * (parseFloat(men) || 0) * hoursToDays(hours);
+}
+function calcRubbishCost() {
+  return getRubbishCostRate();
+}
+function getQuoteOverheads(men, hours) {
+  const adminCost = calcAdminCost(hours);
+  const harnessCost = calcHarnessCost(men, hours);
+  const rubbishCost = calcRubbishCost();
+  return {
+    adminCost,
+    harnessCost,
+    rubbishCost,
+    total: adminCost + harnessCost + rubbishCost
+  };
 }
 
 function saveAdminCostRate(suffix) {
@@ -2039,6 +2231,38 @@ function initHarnessCostRateAdmin(suffix) {
   if(input) { input.value = getHarnessCostRate(); updateHarnessCostPreview(suffix); }
 }
 
+function saveRubbishCostRate(suffix) {
+  suffix = suffix || '';
+  const input = document.getElementById('rubbish-cost-rate-input'+suffix);
+  const val = parseFloat(input.value);
+  if(!isNaN(val) && val >= 0) {
+    localStorage.setItem('jsj_rubbish_cost_rate', val);
+  } else if(input.value === '') {
+    localStorage.removeItem('jsj_rubbish_cost_rate');
+  }
+  updateRubbishCostPreview('-hub');
+  syncRubbishCostInputs();
+}
+function syncRubbishCostInputs() {
+  const rate = getRubbishCostRate();
+  const hub = document.getElementById('rubbish-cost-rate-input-hub');
+  if(hub) hub.value = rate;
+}
+function updateRubbishCostPreview(suffix) {
+  suffix = suffix || '';
+  const rate = getRubbishCostRate();
+  const preview = document.getElementById('rubbish-cost-rate-preview'+suffix);
+  if(!preview) return;
+  preview.innerHTML =
+    `<strong>Every generated quote:</strong> $${rate.toFixed(2)}<br>` +
+    `<strong>Formula:</strong> flat rubbish cost added once per quote/scope`;
+}
+function initRubbishCostRateAdmin(suffix) {
+  suffix = suffix || '';
+  const input = document.getElementById('rubbish-cost-rate-input'+suffix);
+  if(input) { input.value = getRubbishCostRate(); updateRubbishCostPreview(suffix); }
+}
+
 function syncLabourRateInputs() {
   const rate = getLabourRate();
   const main = document.getElementById('labour-rate-input');
@@ -2099,6 +2323,7 @@ function refreshAllChecklists() {
 
 // ==================== STATE ====================
 let state = {
+  jobDetails: {},
   liaised:'yes', accessType:'single storey', difficultAccess:false, difficultReason:'',
   locations:[], locationOther:'', observations:[], obsOther:'',
   works:[], worksOther:'', quoteRequired:'yes', quoteItems:[],
@@ -2109,6 +2334,7 @@ let state = {
 };
 let savedReports = JSON.parse(localStorage.getItem('jsj_reports') || '[]');
 let currentSec = 1;
+const LEAK_SECTION_ORDER = [1, 2, 6];
 
 // ==================== NAV ====================
 function showPage(p) {
@@ -2126,7 +2352,7 @@ function showPage(p) {
   const tabEl = document.getElementById(tabMap[p]||'tab-home');
   if(tabEl) tabEl.classList.add('active');
   if(p==='saved') renderSaved();
-  if(p==='admin') { initLabourRateAdmin('-hub'); initGCAdminRate('-hub'); initAdminCostRateAdmin('-hub'); initHarnessCostRateAdmin('-hub'); initAiPolishProxyAdmin(); }
+  if(p==='admin') { initLabourRateAdmin('-hub'); initGCAdminRate('-hub'); initAdminCostRateAdmin('-hub'); initHarnessCostRateAdmin('-hub'); initRubbishCostRateAdmin('-hub'); initAiPolishProxyAdmin(); }
   if(p==='admin-leak') renderAdminPage();
   if(p==='admin-gutter') initGCAdminRate();
   if(p==='admin-inspection') riRenderAdminPage();
@@ -2144,10 +2370,11 @@ function goSec(n) {
   collectSec(currentSec);
   document.getElementById('sec-'+currentSec).classList.add('hidden');
   document.getElementById('sec-'+n).classList.remove('hidden');
+  const activeIndex = LEAK_SECTION_ORDER.indexOf(n);
   document.querySelectorAll('#page-form .step').forEach((s,i)=>{
     s.classList.remove('active','done');
-    if(i+1<n) s.classList.add('done');
-    else if(i+1===n) s.classList.add('active');
+    if(i < activeIndex) s.classList.add('done');
+    else if(i === activeIndex) s.classList.add('active');
   });
   currentSec=n;
   window.scrollTo(0,0);
@@ -2395,16 +2622,23 @@ document.addEventListener('keydown', e => {
 
 // ==================== COLLECT ====================
 function collectSec(n) {
-  if(n===1){ state.liaised=document.getElementById('yn-yes').classList.contains('active-yes')?'yes':'no'; }
+  if(n===1){
+    state.jobDetails = getJobDetails('leak');
+    state.liaised=document.getElementById('yn-yes').classList.contains('active-yes')?'yes':'no';
+  }
   if(n===2){
     state.accessType=document.getElementById('access-type').value;
     state.difficultAccess=document.getElementById('difficult-access').checked;
     state.difficultReason=document.getElementById('difficult-reason').value;
+    state.locations=getChecked('location-checks');
+    state.locationOther=document.getElementById('location-other').value;
+    state.observations=getChecked('obs-checks');
+    state.obsOther=document.getElementById('obs-other').value;
+    state.works=getChecked('works-checks');
+    state.worksOther=document.getElementById('works-other').value;
   }
-  if(n===3){ state.locations=getChecked('location-checks'); state.locationOther=document.getElementById('location-other').value; }
-  if(n===4){ state.observations=getChecked('obs-checks'); state.obsOther=document.getElementById('obs-other').value; }
-  if(n===5){ state.works=getChecked('works-checks'); state.worksOther=document.getElementById('works-other').value; }
   if(n===6){
+    state.jobDetails = getJobDetails('leak');
     state.quoteRequired=document.getElementById('quote-yes').classList.contains('active-yes')?'yes':'no';
     state.labourTradesmen=document.getElementById('labour-tradesmen').value;
     state.labourTime=document.getElementById('labour-time').value;
@@ -2438,6 +2672,66 @@ function toggleDifficult() {
 let quoteCount=0;
 
 const DEFAULT_UNITS = ['Each','Lineal metre','Lump sum','Caps','Tiles','Sheets','Valleys','Downpipes','Gutters'];
+
+const UNIT_WORDS = {
+  'each': ['item','items'],
+  'piece': ['piece','pieces'],
+  'pieces': ['piece','pieces'],
+  'lineal metre': ['lineal metre','lineal metres'],
+  'lump sum': ['lump sum','lump sums'],
+  'cap': ['cap','caps'],
+  'caps': ['cap','caps'],
+  'tile': ['tile','tiles'],
+  'tiles': ['tile','tiles'],
+  'sheet': ['sheet','sheets'],
+  'sheets': ['sheet','sheets'],
+  'valley': ['valley','valleys'],
+  'valleys': ['valley','valleys'],
+  'downpipe': ['downpipe','downpipes'],
+  'downpipes': ['downpipe','downpipes'],
+  'gutter': ['gutter','gutters'],
+  'gutters': ['gutter','gutters'],
+  'screw': ['screw','screws'],
+  'screws': ['screw','screws'],
+  'clip': ['clip','clips'],
+  'clips': ['clip','clips'],
+  'ridge cap': ['ridge cap','ridge caps'],
+  'ridge caps': ['ridge cap','ridge caps'],
+  'gable': ['gable','gables'],
+  'gables': ['gable','gables'],
+  'sump': ['sump','sumps'],
+  'sumps': ['sump','sumps'],
+  'outlet': ['outlet','outlets'],
+  'outlets': ['outlet','outlets'],
+  'overflow point': ['overflow point','overflow points'],
+  'overflow points': ['overflow point','overflow points']
+};
+
+function formatQuantity(qty) {
+  const n = Number(qty);
+  if(!Number.isFinite(n)) return String(qty || '0');
+  return Number.isInteger(n) ? String(n) : String(parseFloat(n.toFixed(2)));
+}
+
+function pluralizeUnit(unit, qty) {
+  const raw = (unit || '').trim();
+  if(!raw) return '';
+  if(raw.includes('/') || raw.includes('²') || raw.includes('³')) return raw;
+  const key = raw.toLowerCase();
+  if(UNIT_WORDS[key]) return (Number(qty) === 1 ? UNIT_WORDS[key][0] : UNIT_WORDS[key][1]);
+  if(Number(qty) === 1 && key.endsWith('ies')) return raw.slice(0, -3) + 'y';
+  if(Number(qty) === 1 && key.endsWith('s') && !key.endsWith('ss')) return raw.slice(0, -1).toLowerCase();
+  return raw.toLowerCase();
+}
+
+function formatQtyUnit(qty, unit) {
+  const unitLabel = pluralizeUnit(unit, qty);
+  return unitLabel ? `${formatQuantity(qty)} ${unitLabel}` : formatQuantity(qty);
+}
+
+function formatQuoteItemLine(item) {
+  return `- ${item.type} x ${formatQtyUnit(item.qty, item.unit)}`;
+}
 
 function getUnitOptions() {
   const deleted = loadDeletedDefaults('units');
@@ -2583,13 +2877,15 @@ function collectUnrelatedItems() {
 function generateReport() {
   collectSec(6);
   collectUnrelatedItems();
+  state.jobDetails = getJobDetails('leak');
+  const jobDetails = normalizeJobDetails(state.jobDetails);
   const loc=[...state.locations,state.locationOther].filter(Boolean);
   const obs=[...state.observations,state.obsOther].filter(Boolean);
   const wrk=[...state.works,state.worksOther].filter(Boolean);
   const liaisedIntro=state.liaised==='yes'?'After liaising with the resident and inspecting the reported leak,':'After inspecting the reported leak,';
   const locStr=loc.length>0?loc.join(', ').toLowerCase():'the affected area';
   const accessStr=state.accessType+(state.difficultAccess?` (difficult access — ${state.difficultReason})`:'');
-  let report='';
+  let report=buildReportHeader('Leak Inspection Report', jobDetails);
   report+=`${liaisedIntro} we proceeded to the roof to investigate further. Access was completed via ${accessStr} roof access.\n\n`;
   if(obs.length>0){
     report+=`The reported leak was located within the ${locStr} area. Upon inspection, we identified the following: ${obs.map(o=>o.toLowerCase()).join(', ')}.\n\n`;
@@ -2625,12 +2921,12 @@ function generateReport() {
   }
 
   // ==================== MAIN LEAK QUOTE ====================
-  let quote='Scope of Works\n';
+  let quote=buildReportHeader('Scope of Works — Leak Repair', jobDetails);
   quote+=`Works classification: ${state.leakUrgent ? 'Urgent works required' : 'Temporary repair will hold — preventative maintenance'}\n\n`;
   quote+='- Alert residents and set up safety signage\n';
   quote+='- Fall restraint harness set up to comply with WHS requirements\n';
   if(state.quoteRequired==='yes'&&state.quoteItems.length>0){
-    state.quoteItems.forEach(item=>{ if(item.type) quote+=`- ${item.type} x ${item.qty} ${item.unit}\n`; });
+    state.quoteItems.forEach(item=>{ if(item.type) quote+=`${formatQuoteItemLine(item)}\n`; });
   }
   quote+='- Provide photos/videos of completed works\n';
   quote+='- Remove trade rubbish from site\n';
@@ -2663,9 +2959,8 @@ function generateReport() {
     }
 
     const materialMarked = anyPriced ? materialCost / 0.3 : 0;
-    const adminCost = calcAdminCost(hours);
-    const harnessCost = calcHarnessCost(men, hours);
-    const grandTotal = labourCost + materialMarked + adminCost + harnessCost;
+    const { adminCost, harnessCost, rubbishCost } = getQuoteOverheads(men, hours);
+    const grandTotal = labourCost + materialMarked + adminCost + harnessCost + rubbishCost;
 
     if(labourCost > 0 || anyPriced) {
       quote += `\n\nEstimated total: $${grandTotal.toFixed(2)}`;
@@ -2678,6 +2973,7 @@ function generateReport() {
       }
       adminBreakdown += `Admin cost: $${adminCost.toFixed(2)}\n`;
       adminBreakdown += `Harness cost: $${harnessCost.toFixed(2)}\n`;
+      adminBreakdown += `Rubbish cost: $${rubbishCost.toFixed(2)}\n`;
       adminBreakdown += `Grand Total: $${grandTotal.toFixed(2)}`;
     }
   }
@@ -2692,7 +2988,7 @@ function generateReport() {
     }
     unrelatedQuote += '- Alert residents and set up safety signage\n';
     unrelatedQuote += '- Fall restraint harness set up to comply with WHS requirements\n';
-    state.unrelatedItems.forEach(item => { if(item.type) unrelatedQuote += `- ${item.type} x ${item.qty} ${item.unit}\n`; });
+    state.unrelatedItems.forEach(item => { if(item.type) unrelatedQuote += `${formatQuoteItemLine(item)}\n`; });
     unrelatedQuote += '- Provide photos/videos of completed works\n';
     unrelatedQuote += '- Remove trade rubbish from site\n';
     if(!state.unrelatedUrgent && state.unrelatedTimeframe) {
@@ -2720,9 +3016,8 @@ function generateReport() {
       }
     });
     const uMaterialMarked = uAnyPriced ? uMaterialCost / 0.3 : 0;
-    const uAdminCost = calcAdminCost(uHours);
-    const uHarnessCost = calcHarnessCost(uMen, uHours);
-    const uGrandTotal = uLabourCost + uMaterialMarked + uAdminCost + uHarnessCost;
+    const { adminCost: uAdminCost, harnessCost: uHarnessCost, rubbishCost: uRubbishCost } = getQuoteOverheads(uMen, uHours);
+    const uGrandTotal = uLabourCost + uMaterialMarked + uAdminCost + uHarnessCost + uRubbishCost;
 
     if(uLabourCost > 0 || uAnyPriced) {
       unrelatedQuote += `\n\nEstimated total: $${uGrandTotal.toFixed(2)}`;
@@ -2735,6 +3030,7 @@ function generateReport() {
       }
       adminBreakdown += `Admin cost: $${uAdminCost.toFixed(2)}\n`;
       adminBreakdown += `Harness cost: $${uHarnessCost.toFixed(2)}\n`;
+      adminBreakdown += `Rubbish cost: $${uRubbishCost.toFixed(2)}\n`;
       adminBreakdown += `Grand Total: $${uGrandTotal.toFixed(2)}`;
     }
 
@@ -2754,7 +3050,7 @@ function generateReport() {
     adminPanel.classList.add('hidden');
   }
 
-  const draft={id:Date.now(),date:new Date().toLocaleDateString('en-AU'),location:locStr,status:'complete',report,quote,adminBreakdown,state:JSON.parse(JSON.stringify(state))};
+  const draft={id:Date.now(),date:new Date().toLocaleDateString('en-AU'),location:locStr,status:'complete',report,quote,adminBreakdown,jobDetails,state:JSON.parse(JSON.stringify(state))};
   savedReports.unshift(draft);
   if(savedReports.length>50) savedReports=savedReports.slice(0,50);
   localStorage.setItem('jsj_reports',JSON.stringify(savedReports));
@@ -2780,6 +3076,16 @@ function copyBoth(btn) {
 function saveReport() { toast('Report saved!'); showPage('saved'); }
 
 // ==================== SAVED ====================
+function savedReportTitle(r) {
+  const labels = {
+    inspection: 'Roof inspection',
+    gutter: 'Gutter quote',
+    gutterreport: 'Gutter clean report'
+  };
+  const label = labels[r.type] || 'Leak report';
+  return `${label} — ${r.location || 'Unknown location'}`;
+}
+
 function renderSaved() {
   const list=document.getElementById('saved-list');
   if(savedReports.length===0){
@@ -2789,7 +3095,7 @@ function renderSaved() {
   list.innerHTML=savedReports.map((r,i)=>`
     <div class="report-card" onclick="loadReport(${i})">
       <div class="report-card-top">
-        <div class="report-card-title">Leak report — ${r.location||'Unknown location'}</div>
+        <div class="report-card-title">${savedReportTitle(r)}</div>
         <span class="badge badge-complete">${r.status}</span>
       </div>
       <div class="report-card-meta">${r.date} &nbsp;·&nbsp; <span style="color:var(--text3);">Tap to view</span></div>
@@ -2806,6 +3112,15 @@ function loadReport(i) {
 
   if(r.type === 'gutter') {
     document.getElementById('gutter-output').value = r.report;
+    document.getElementById('gc-out-q2-section')?.classList.add('hidden');
+    const adminPanel = document.getElementById('gutter-admin-panel');
+    const adminContent = document.getElementById('gutter-admin-content');
+    if(r.adminBreakdown && adminUnlocked) {
+      adminContent.textContent = r.adminBreakdown;
+      adminPanel.classList.remove('hidden');
+    } else {
+      adminPanel.classList.add('hidden');
+    }
     showPage('gutter-output');
     return;
   }
@@ -2840,6 +3155,10 @@ function loadReport(i) {
 // ==================== RESET ====================
 function resetForm() {
   currentSec=1;
+  resetJobDetails('leak');
+  document.getElementById('sec-1')?.classList.remove('hidden');
+  document.getElementById('sec-2')?.classList.add('hidden');
+  document.getElementById('sec-6')?.classList.add('hidden');
   document.querySelectorAll('.check-item').forEach(el=>el.classList.remove('checked'));
   ['location-other','obs-other','works-other','difficult-reason'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('difficult-access').checked=false;
@@ -2929,10 +3248,28 @@ updateOnlineStatus();
 
 // ==================== GUTTER CLEAN ====================
 const DEFAULT_GC_RATE = 230;
-let gcState = { quoteType: '', screen: 'none', roof: '', access: '', men: '2', hours: '3 hours', menQ2: '2', hoursQ2: '4 hours', notes: '', poorRoof: false, rrRoof: '', rrAccess: '', rrMen: '2', rrHours: '3 hours',
+let gcState = { quoteType: '', jobDetails: {}, rrJobDetails: {}, screen: 'none', roof: '', access: '', men: '2', hours: '3 hours', menQ2: '2', hoursQ2: '4 hours', notes: '', poorRoof: false, rrRoof: '', rrAccess: '', rrMen: '2', rrHours: '3 hours',
   repairsFound: false, repairItems: [], repairsUrgent: false, repairUrgentKeys: [], repairsTimeframe: '', repairsMen: '2', repairsHours: '2 hours',
   makeSafeDone: false, makeSafeNotes: '', makeSafeItems: [], makeSafeMen: '2', makeSafeHours: '2 hours' };
 let gcCurrentSec = 0;
+
+function getGCJobDetailsPrefix() {
+  return gcState.quoteType === 'roofreport' ? 'gutter-rr' : 'gutter';
+}
+
+function updateGCSteps(n) {
+  const current = String(n);
+  const order = (gcState.quoteType === 'roofreport' || current.startsWith('r'))
+    ? ['0','r1','r2']
+    : ['0','1','3','4'];
+  const activeIndex = Math.max(0, order.indexOf(current));
+  document.querySelectorAll('#gc-steps .step').forEach((el, i) => {
+    el.style.display = i < order.length ? '' : 'none';
+    el.classList.remove('active','done');
+    if(i < activeIndex) el.classList.add('done');
+    else if(i === activeIndex) el.classList.add('active');
+  });
+}
 
 function getGCRate() {
   const stored = parseFloat(localStorage.getItem('jsj_gc_rate'));
@@ -3108,7 +3445,7 @@ function gcRenderRepairUrgentUI() {
     const checked = gcState.repairUrgentKeys.includes(id);
     html += `<div class="ri-urgent-item">
       <input type="checkbox" id="gc-urg-${id}" ${checked ? 'checked' : ''} onchange="gcToggleRepairUrgent('${id}',this.checked)"/>
-      <label for="gc-urg-${id}">${label} x ${qty}</label>
+      <label for="gc-urg-${id}">${label} x ${formatQuantity(qty)}</label>
     </div>`;
   });
 
@@ -3178,6 +3515,7 @@ function setGCQuoteType(val) {
   ['gutter','roofreport','both'].forEach(v => {
     document.getElementById('gc-quotetype-'+v)?.classList.toggle('selected', v === val);
   });
+  updateGCSteps(gcCurrentSec);
 }
 
 function setGCRRRoof(val) {
@@ -3209,11 +3547,17 @@ function gcGoSec(n) {
     gcState.rrMen = document.getElementById('gc-rr-men')?.value || '2';
     gcState.rrHours = document.getElementById('gc-rr-hours')?.value || '3 hours';
   }
+  if(gcCurrentSec === 1) {
+    gcState.jobDetails = getJobDetails('gutter');
+  }
+  if(gcCurrentSec === 'r1') {
+    gcState.rrJobDetails = getJobDetails('gutter-rr');
+  }
 
   // Validation
   if(gcCurrentSec === 0 && !gcState.quoteType) { toast('Please select a quote type'); return; }
-  if(gcCurrentSec === 1 && n === 2 && !gcState.screen) { toast('Please select a gutter screen type'); return; }
-  if(gcCurrentSec === 2 && n === 3) {
+  if(gcCurrentSec === 1 && n === 3) {
+    if(!gcState.screen) { toast('Please select a gutter screen type'); return; }
     if(!gcState.roof) { toast('Please select a roof type'); return; }
     if(!gcState.access) { toast('Please select access type'); return; }
   }
@@ -3257,17 +3601,7 @@ function gcGoSec(n) {
   document.getElementById('gc-sec-'+gcCurrentSec).classList.add('hidden');
   document.getElementById('gc-sec-'+n).classList.remove('hidden');
 
-  // Update step dots — map both numeric and r1/r2 sections onto the same dot trail
-  const stepOrder = ['0','1','2','3','4','5'];
-  const dotIndexMap = { '0':0, 'r1':1, 'r2':2, '1':1, '2':2, '3':3, '4':4, '5':5 };
-  const currentDot = dotIndexMap[String(n)] ?? 0;
-  for(let i = 0; i <= 5; i++) {
-    const el = document.getElementById('gc-step-'+i);
-    if(!el) continue;
-    el.classList.remove('active','done');
-    if(i < currentDot) el.classList.add('done');
-    else if(i === currentDot) el.classList.add('active');
-  }
+  updateGCSteps(n);
 
   gcCurrentSec = n;
   window.scrollTo(0,0);
@@ -3308,6 +3642,8 @@ function buildGutterScope(screen, notes) {
 }
 
 function generateRoofReportQuote() {
+  gcState.rrJobDetails = getJobDetails('gutter-rr');
+  const jobDetails = normalizeJobDetails(gcState.rrJobDetails);
   gcState.rrMen = document.getElementById('gc-rr-men')?.value || '2';
   gcState.rrHours = document.getElementById('gc-rr-hours')?.value || '3 hours';
 
@@ -3317,11 +3653,10 @@ function generateRoofReportQuote() {
   const hrs = hoursMap[gcState.rrHours] || 1;
   const total = men * hrs * rate;
   const gst = total * 0.1;
-  const adminCost = calcAdminCost(hrs);
-  const harnessCost = calcHarnessCost(men, hrs);
-  const grandTotal = total + gst + adminCost + harnessCost;
+  const { adminCost, harnessCost, rubbishCost } = getQuoteOverheads(men, hrs);
+  const grandTotal = total + gst + adminCost + harnessCost + rubbishCost;
 
-  let quote = 'Scope of Works — Roof Report\n\n';
+  let quote = buildReportHeader('Scope of Works — Roof Report', jobDetails);
   quote += '- Alerted residents & set up safety signage\n';
   quote += '- Where required fall restraint harness used to comply with WHS\n';
   quote += '- Full roof inspection completed\n';
@@ -3339,7 +3674,7 @@ function generateRoofReportQuote() {
   const adminPanel = document.getElementById('gutter-admin-panel');
   const adminContent = document.getElementById('gutter-admin-content');
   if(adminUnlocked) {
-    adminContent.textContent = `── Admin Pricing Breakdown — Roof Report ──\n${men} men × ${hrs} hrs × $${rate.toFixed(2)} = $${total.toFixed(2)}\nGST (10%): $${gst.toFixed(2)}\nAdmin cost: $${adminCost.toFixed(2)}\nHarness cost: $${harnessCost.toFixed(2)}\nTotal: $${grandTotal.toFixed(2)}`;
+    adminContent.textContent = `── Admin Pricing Breakdown — Roof Report ──\n${men} men × ${hrs} hrs × $${rate.toFixed(2)} = $${total.toFixed(2)}\nGST (10%): $${gst.toFixed(2)}\nAdmin cost: $${adminCost.toFixed(2)}\nHarness cost: $${harnessCost.toFixed(2)}\nRubbish cost: $${rubbishCost.toFixed(2)}\nTotal: $${grandTotal.toFixed(2)}`;
     adminPanel.classList.remove('hidden');
   } else {
     adminPanel.classList.add('hidden');
@@ -3350,6 +3685,8 @@ function generateRoofReportQuote() {
 }
 
 function generateGutterQuote() {
+  gcState.jobDetails = getJobDetails('gutter');
+  const jobDetails = normalizeJobDetails(gcState.jobDetails);
   gcState.men = document.getElementById('gc-men')?.value || '2';
   gcState.hours = document.getElementById('gc-hours')?.value || '3 hours';
   gcState.menQ2 = document.getElementById('gc-men-q2')?.value || '2';
@@ -3368,12 +3705,11 @@ function generateGutterQuote() {
   const hrs1 = hoursMap[gcState.hours] || 1;
   const total1 = men1 * hrs1 * rate;
   const gst1 = total1 * 0.1;
-  const adminCost1 = calcAdminCost(hrs1);
-  const harnessCost1 = calcHarnessCost(men1, hrs1);
-  const grandTotal1 = total1 + gst1 + adminCost1 + harnessCost1;
+  const { adminCost: adminCost1, harnessCost: harnessCost1, rubbishCost: rubbishCost1 } = getQuoteOverheads(men1, hrs1);
+  const grandTotal1 = total1 + gst1 + adminCost1 + harnessCost1 + rubbishCost1;
   const isBoth = gcState.quoteType === 'both';
 
-  let q1 = isBoth ? 'Scope of Works — Gutter Clean & Roof Report\n' : 'Scope of Works — Gutter Clean\n';
+  let q1 = buildReportHeader(isBoth ? 'Scope of Works — Gutter Clean & Roof Report' : 'Scope of Works — Gutter Clean', jobDetails);
   if(screen === 'full-debris') q1 += 'Option 1: Clear debris from top of screens only\n';
   q1 += '\n' + scopeBody;
   if(isBoth) {
@@ -3398,11 +3734,11 @@ function generateGutterQuote() {
     const hrs2 = hoursMap[gcState.hoursQ2] || 1;
     const total2 = men2 * hrs2 * rate;
     const gst2 = total2 * 0.1;
-    const adminCost2 = calcAdminCost(hrs2);
-    const harnessCost2 = calcHarnessCost(men2, hrs2);
-    grandTotal2 = total2 + gst2 + adminCost2 + harnessCost2;
+    const { adminCost: adminCost2, harnessCost: harnessCost2, rubbishCost: rubbishCost2 } = getQuoteOverheads(men2, hrs2);
+    grandTotal2 = total2 + gst2 + adminCost2 + harnessCost2 + rubbishCost2;
 
-    let q2 = 'Scope of Works — Gutter Clean\nOption 2: Flip leaf screens, clean gutters & reinstall screens\n\n';
+    let q2 = buildReportHeader('Scope of Works — Gutter Clean', jobDetails);
+    q2 += 'Option 2: Flip leaf screens, clean gutters & reinstall screens\n\n';
     q2 += '- Alerted residents & set up safety signage\n';
     q2 += '- Where required fall restraint harness used to comply with WHS\n';
     q2 += '- Leaf screens removed and set aside\n';
@@ -3419,11 +3755,11 @@ function generateGutterQuote() {
 
     document.getElementById('gutter-output-q2').value = q2;
 
-    adminText += `Option 1 (top clean only):\n  ${men1} men × ${hrs1} hrs × $${rate.toFixed(2)} = $${total1.toFixed(2)} + GST $${gst1.toFixed(2)} + Admin $${adminCost1.toFixed(2)} + Harness $${harnessCost1.toFixed(2)} = $${grandTotal1.toFixed(2)}\n\n`;
-    adminText += `Option 2 (flip, clean & reinstall):\n  ${parseFloat(gcState.menQ2)} men × ${hrs2} hrs × $${rate.toFixed(2)} = $${total2.toFixed(2)} + GST $${gst2.toFixed(2)} + Admin $${adminCost2.toFixed(2)} + Harness $${harnessCost2.toFixed(2)} = $${grandTotal2.toFixed(2)}`;
+    adminText += `Option 1 (top clean only):\n  ${men1} men × ${hrs1} hrs × $${rate.toFixed(2)} = $${total1.toFixed(2)} + GST $${gst1.toFixed(2)} + Admin $${adminCost1.toFixed(2)} + Harness $${harnessCost1.toFixed(2)} + Rubbish $${rubbishCost1.toFixed(2)} = $${grandTotal1.toFixed(2)}\n\n`;
+    adminText += `Option 2 (flip, clean & reinstall):\n  ${parseFloat(gcState.menQ2)} men × ${hrs2} hrs × $${rate.toFixed(2)} = $${total2.toFixed(2)} + GST $${gst2.toFixed(2)} + Admin $${adminCost2.toFixed(2)} + Harness $${harnessCost2.toFixed(2)} + Rubbish $${rubbishCost2.toFixed(2)} = $${grandTotal2.toFixed(2)}`;
   } else {
     q2section.classList.add('hidden');
-    adminText += `${men1} men × ${hrs1} hrs × $${rate.toFixed(2)} = $${total1.toFixed(2)}\nGST (10%): $${gst1.toFixed(2)}\nAdmin cost: $${adminCost1.toFixed(2)}\nHarness cost: $${harnessCost1.toFixed(2)}\nTotal: $${grandTotal1.toFixed(2)}`;
+    adminText += `${men1} men × ${hrs1} hrs × $${rate.toFixed(2)} = $${total1.toFixed(2)}\nGST (10%): $${gst1.toFixed(2)}\nAdmin cost: $${adminCost1.toFixed(2)}\nHarness cost: $${harnessCost1.toFixed(2)}\nRubbish cost: $${rubbishCost1.toFixed(2)}\nTotal: $${grandTotal1.toFixed(2)}`;
   }
 
   // ── ROOF INSPECTION ADDON (inline in quote) ──
@@ -3468,12 +3804,12 @@ function generateGutterQuote() {
 
       if(urgentItems.length > 0) {
         repairsQuote += '── ⚠ Priority Items — Urgent Attention Required ──\n';
-        urgentItems.forEach(item => { if(item.type) repairsQuote += `- ${item.type} x ${item.qty} ${item.unit}\n`; });
+        urgentItems.forEach(item => { if(item.type) repairsQuote += `${formatQuoteItemLine(item)}\n`; });
         repairsQuote += '\n';
       }
       if(preventItems.length > 0) {
         repairsQuote += urgentItems.length > 0 ? '── Preventative Maintenance — Remaining Items ──\n' : 'Scope of Works:\n';
-        preventItems.forEach(item => { if(item.type) repairsQuote += `- ${item.type} x ${item.qty} ${item.unit}\n`; });
+        preventItems.forEach(item => { if(item.type) repairsQuote += `${formatQuoteItemLine(item)}\n`; });
         if(!gcState.repairsUrgent && gcState.repairsTimeframe) {
           repairsQuote += `\nThese items are not urgent — we recommend they be addressed within approximately ${gcState.repairsTimeframe}.\n`;
         }
@@ -3492,9 +3828,8 @@ function generateGutterQuote() {
         if(price !== null && !isNaN(price)) { rMaterialCost += price * item.qty; rAnyPriced = true; }
       });
       const rMaterialMarked = rAnyPriced ? rMaterialCost / 0.3 : 0;
-      const rAdminCost = calcAdminCost(rHrs);
-      const rHarnessCost = calcHarnessCost(rMen, rHrs);
-      const rGrandTotal = rLabourCost + rGST + rMaterialMarked + rAdminCost + rHarnessCost;
+      const { adminCost: rAdminCost, harnessCost: rHarnessCost, rubbishCost: rRubbishCost } = getQuoteOverheads(rMen, rHrs);
+      const rGrandTotal = rLabourCost + rGST + rMaterialMarked + rAdminCost + rHarnessCost + rRubbishCost;
 
       repairsQuote += `Labour Allowance:\nTradesmen required: ${rMen}\nEstimated time: ${gcState.repairsHours}`;
       repairsQuote += `\n\nEstimated total: $${rGrandTotal.toFixed(2)} inc. GST`;
@@ -3512,6 +3847,7 @@ function generateGutterQuote() {
       }
       adminText += `Admin cost: $${rAdminCost.toFixed(2)}\n`;
       adminText += `Harness cost: $${rHarnessCost.toFixed(2)}\n`;
+      adminText += `Rubbish cost: $${rRubbishCost.toFixed(2)}\n`;
       adminText += `Grand Total: $${rGrandTotal.toFixed(2)}`;
     }
   }
@@ -3524,7 +3860,7 @@ function generateGutterQuote() {
     if(gcState.makeSafeNotes) msQuote += `${gcState.makeSafeNotes}\n\n`;
     if(gcState.makeSafeItems.length > 0) {
       msQuote += 'Items used:\n';
-      gcState.makeSafeItems.forEach(item => { if(item.type) msQuote += `- ${item.type} x ${item.qty} ${item.unit}\n`; });
+      gcState.makeSafeItems.forEach(item => { if(item.type) msQuote += `${formatQuoteItemLine(item)}\n`; });
       msQuote += '\n';
     }
 
@@ -3540,9 +3876,8 @@ function generateGutterQuote() {
       if(price !== null && !isNaN(price)) { msMaterialCost += price * item.qty; msAnyPriced = true; }
     });
     const msMaterialMarked = msAnyPriced ? msMaterialCost / 0.3 : 0;
-    const msAdminCost = calcAdminCost(msHrs);
-    const msHarnessCost = calcHarnessCost(msMen, msHrs);
-    const msGrandTotal = msLabourCost + msGST + msMaterialMarked + msAdminCost + msHarnessCost;
+    const { adminCost: msAdminCost, harnessCost: msHarnessCost, rubbishCost: msRubbishCost } = getQuoteOverheads(msMen, msHrs);
+    const msGrandTotal = msLabourCost + msGST + msMaterialMarked + msAdminCost + msHarnessCost + msRubbishCost;
 
     msQuote += `Labour Allowance:\nTradesmen required: ${msMen}\nEstimated time: ${gcState.makeSafeHours}`;
     msQuote += `\n\nEstimated total: $${msGrandTotal.toFixed(2)} inc. GST`;
@@ -3558,6 +3893,7 @@ function generateGutterQuote() {
     }
     adminText += `Admin cost: $${msAdminCost.toFixed(2)}\n`;
     adminText += `Harness cost: $${msHarnessCost.toFixed(2)}\n`;
+    adminText += `Rubbish cost: $${msRubbishCost.toFixed(2)}\n`;
     adminText += `Grand Total: $${msGrandTotal.toFixed(2)}`;
   }
 
@@ -3587,14 +3923,18 @@ function copyBothGutter(btn) {
 function saveGutterReport() {
   const quote = document.getElementById('gutter-output').value;
   const quote2 = document.getElementById('gutter-output-q2')?.value || '';
+  const jobDetails = normalizeJobDetails(gcState.quoteType === 'roofreport' ? gcState.rrJobDetails : gcState.jobDetails);
   const r = {
     id: Date.now(),
     date: new Date().toLocaleDateString('en-AU'),
-    location: `Gutter Clean — ${gcState.roof || ''} ${gcState.access || ''}`.trim(),
+    location: gcState.quoteType === 'roofreport'
+      ? `Roof Report Quote — ${gcState.rrRoof || ''} ${gcState.rrAccess || ''}`.trim()
+      : `Gutter Clean — ${gcState.roof || ''} ${gcState.access || ''}`.trim(),
     status: 'complete',
     report: quote + (quote2 ? '\n\n─────\n\n' + quote2 : ''),
     quote: quote,
     adminBreakdown: document.getElementById('gutter-admin-content')?.textContent || '',
+    jobDetails,
     type: 'gutter'
   };
   savedReports.unshift(r);
@@ -3605,18 +3945,17 @@ function saveGutterReport() {
 }
 
 function resetGutterForm() {
-  gcState = { quoteType: '', screen: 'none', roof: '', access: '', men: '2', hours: '3 hours', menQ2: '2', hoursQ2: '4 hours', notes: '', poorRoof: false, rrRoof: '', rrAccess: '', rrMen: '2', rrHours: '3 hours',
+  gcState = { quoteType: '', jobDetails: {}, rrJobDetails: {}, screen: 'none', roof: '', access: '', men: '2', hours: '3 hours', menQ2: '2', hoursQ2: '4 hours', notes: '', poorRoof: false, rrRoof: '', rrAccess: '', rrMen: '2', rrHours: '3 hours',
     repairsFound: false, repairItems: [], repairsUrgent: false, repairUrgentKeys: [], repairsTimeframe: '', repairsMen: '2', repairsHours: '2 hours',
     makeSafeDone: false, makeSafeNotes: '', makeSafeItems: [], makeSafeMen: '2', makeSafeHours: '2 hours' };
   gcCurrentSec = 0;
+  resetJobDetails('gutter');
+  resetJobDetails('gutter-rr');
   document.querySelectorAll('.gc-option-btn').forEach(b => b.classList.remove('selected'));
   document.querySelectorAll('.gc-chip').forEach(b => b.classList.remove('selected'));
   ['gc-sec-1','gc-sec-2','gc-sec-3','gc-sec-4','gc-sec-r1','gc-sec-r2'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
   document.getElementById('gc-sec-0')?.classList.remove('hidden');
-  for(let i=0; i<=5; i++) {
-    const el = document.getElementById('gc-step-'+i);
-    if(el) { el.classList.remove('done','active'); if(i===0) el.classList.add('active'); }
-  }
+  updateGCSteps(0);
   const q2panel = document.getElementById('gc-labour-q2-panel');
   if(q2panel) q2panel.classList.add('hidden');
   const bothNote = document.getElementById('gc-labour-both-note');
@@ -3703,10 +4042,21 @@ const RI_TILE_ITEMS_DEFAULT = [
 
 const RI_METAL_ITEMS_DEFAULT = [
   { id:'corroded_sheet', label:'Corroded/rusted roof sheet', unit:'sheets' },
+  { id:'kliplok_sheet_replacement', label:'Klip-Lok sheet replacement', unit:'sheets', colourPrompts:[{key:'colorbond',label:'Colorbond colour',options:RI_COLORBOND_COLOURS}] },
+  { id:'corrugated_sheet_replacement', label:'Corrugated sheet replacement', unit:'sheets', colourPrompts:[{key:'colorbond',label:'Colorbond colour',options:RI_COLORBOND_COLOURS}] },
   { id:'loose_screw_fixings', label:'Loose or missing screw fixings', unit:'screws' },
   { id:'failed_ridge_capping', label:'Failed/deteriorated ridge capping', unit:'L/m', colourPrompts:[{key:'colorbond',label:'Colorbond colour',options:RI_COLORBOND_COLOURS}] },
   { id:'failed_flashing', label:'Failed flashing', unit:'', colourPrompts:[{key:'aquaflash',label:'Aquaflash colour',options:RI_AQUAFLASH_COLOURS}] },
+  { id:'custom_flashing', label:'Custom flashing', unit:'L/m', colourPrompts:[{key:'colorbond',label:'Colorbond colour',options:RI_COLORBOND_COLOURS}] },
+  { id:'apron_flashing', label:'Apron flashing', unit:'L/m', colourPrompts:[{key:'colorbond',label:'Colorbond colour',options:RI_COLORBOND_COLOURS}] },
+  { id:'barge_flashing', label:'Barge flashing', unit:'L/m', colourPrompts:[{key:'colorbond',label:'Colorbond colour',options:RI_COLORBOND_COLOURS}] },
+  { id:'parapet_flashing', label:'Parapet flashing', unit:'L/m', colourPrompts:[{key:'colorbond',label:'Colorbond colour',options:RI_COLORBOND_COLOURS}] },
   { id:'failed_sealant_penetration', label:'Failed sealant at roof penetration', unit:'' },
+  { id:'rusted_box_gutter', label:'Rusted box gutter', unit:'L/m', colourPrompts:[{key:'colorbond',label:'Colorbond colour',options:RI_COLORBOND_COLOURS}] },
+  { id:'box_gutter_replacement', label:'Box gutter replacement', unit:'L/m', colourPrompts:[{key:'colorbond',label:'Colorbond colour',options:RI_COLORBOND_COLOURS}] },
+  { id:'sump_replacement', label:'Sump replacement', unit:'sumps', colourPrompts:[{key:'colorbond',label:'Colorbond colour',options:RI_COLORBOND_COLOURS}] },
+  { id:'failed_box_gutter_outlet', label:'Failed box gutter outlet', unit:'outlets' },
+  { id:'overflow_provision', label:'Overflow provision', unit:'overflow points' },
   { id:'reflash_tv_aerial_metal', label:'Reflash TV aerial', unit:'', colourPrompts:[{key:'aquaflash',label:'Aquaflash colour',options:RI_AQUAFLASH_COLOURS}] },
   { id:'reseal_gutter_join_metal', label:'Reseal gutter join', unit:'' },
   { id:'replace_gutter_section_metal', label:'Remove & replace nominated section of gutter', unit:'L/m', colourPrompts:[{key:'gutterprofile',label:'Gutter profile',options:RI_GUTTER_PROFILES},{key:'guttercolour',label:'Gutter colour',options:RI_GUTTER_COLOURS}] },
@@ -3735,6 +4085,7 @@ function riGetItemListFor(kind) {
 }
 
 let riState = {
+  jobDetails: {},
   roofType: '',
   roofCondition: '',
   gutterCondition: '',
@@ -4403,13 +4754,13 @@ function riGetEnteredItemsForScope(scopeId) {
     if(!data) return;
     if(item.downpipe) {
       const numDownpipes = data.downpipe?.numDownpipes || 0;
-      if(numDownpipes > 0) entered.push({ key: item.id, label: `${item.label} x ${numDownpipes} downpipe${numDownpipes !== 1 ? 's' : ''}` });
+      if(numDownpipes > 0) entered.push({ key: item.id, label: `${item.label} x ${formatQtyUnit(numDownpipes, 'downpipes')}` });
     } else if(data.qty > 0) {
-      entered.push({ key: item.id, label: `${item.label} x ${data.qty}${item.unit ? ' ' + item.unit : ''}` });
+      entered.push({ key: item.id, label: `${item.label} x ${formatQtyUnit(data.qty, item.unit)}` });
     }
   });
   (scope.customItems || []).forEach((ci, idx) => {
-    entered.push({ key: 'custom_'+idx, label: `${ci.label} x ${ci.qty}${ci.unit ? ' ' + ci.unit : ''}` });
+    entered.push({ key: 'custom_'+idx, label: `${ci.label} x ${formatQtyUnit(ci.qty, ci.unit)}` });
   });
   return entered;
 }
@@ -4548,7 +4899,7 @@ function riFormatScopeReport(scopeId, scopeLabel) {
           parts.push(shared.colour);
         }
         if(shared.location) parts.push(`location: ${shared.location}`);
-        if(parts.length) pipeDetails.push(`all ${numDownpipes} downpipes — ${parts.join(', ')}, ${shared.lm || 0} L/m each`);
+        if(parts.length) pipeDetails.push(`all ${formatQtyUnit(numDownpipes, 'downpipes')} — ${parts.join(', ')}, ${shared.lm || 0} L/m each`);
       } else if(dp.sameSize === false) {
         (dp.pipes || []).forEach((p, i) => {
           totalLm += p.lm || 0;
@@ -4565,7 +4916,7 @@ function riFormatScopeReport(scopeId, scopeLabel) {
         });
       }
 
-      let line = `- ${item.label} x ${numDownpipes} downpipe${numDownpipes !== 1 ? 's' : ''}, ${totalLm} L/m total`;
+      let line = `- ${item.label} x ${formatQtyUnit(numDownpipes, 'downpipes')}, ${totalLm} L/m total`;
       if(dp.nozzles === true) pipeDetails.push('new nozzles required');
       else if(dp.nozzles === false) pipeDetails.push('no new nozzles required');
       if(pipeDetails.length) line += ` (${pipeDetails.join('; ')})`;
@@ -4579,7 +4930,7 @@ function riFormatScopeReport(scopeId, scopeLabel) {
     }
 
     if(!data || data.qty <= 0) return;
-    let line = `- ${item.label} x ${data.qty}${item.unit ? ' ' + item.unit : ''}`;
+    let line = `- ${item.label} x ${formatQtyUnit(data.qty, item.unit)}`;
     if(item.colourPrompts && item.colourPrompts.length) {
       const colourParts = item.colourPrompts
         .map(cp => data.colours && data.colours[cp.key] ? `${cp.label}: ${data.colours[cp.key]}` : null)
@@ -4594,7 +4945,7 @@ function riFormatScopeReport(scopeId, scopeLabel) {
   });
 
   (scope.customItems || []).forEach((ci, idx) => {
-    let line = `- ${ci.label} x ${ci.qty}${ci.unit ? ' ' + ci.unit : ''}`;
+    let line = `- ${ci.label} x ${formatQtyUnit(ci.qty, ci.unit)}`;
     if(urgentKeys.includes('custom_'+idx)) {
       urgentLines.push({ scopeLabel, line });
     } else {
@@ -4651,20 +5002,21 @@ function riCalculateMaterialCost() {
 }
 
 function generateInspectionReport() {
+  riState.jobDetails = getJobDetails('ri');
+  const jobDetails = normalizeJobDetails(riState.jobDetails);
   riState.notes = document.getElementById('ri-notes')?.value || '';
 
   const condLabels = { poor:'Poor', average:'Average — should monitor', satisfactory:'Satisfactory' };
   const roofTypeLabel = riState.roofType === 'metal' ? 'Metal' : 'Tile';
 
-  let report = '';
+  let report = buildReportHeader(riState.carriedOverFromGutterReport ? 'Gutter Clean + Roof Report' : 'Roof Inspection Report', jobDetails);
   if(riState.carriedOverFromGutterReport) {
     const grCondWords = { poor: 'poor', average: 'average — should be monitored', satisfactory: 'satisfactory' };
-    report += 'Gutter Clean Report\n\n';
     report += `After completing the gutter clean we found the roof to be in ${grCondWords[riState.roofCondition] || 'an unassessed'} condition and the gutters to be in ${grCondWords[riState.gutterCondition] || 'an unassessed'} condition. A full roof report was completed at the same time — findings below.\n\n`;
     if(riState.grAccess) report += `Access: ${riState.grAccess}\n\n`;
+    report += 'Roof Inspection Report\n\n';
   }
 
-  report += 'Roof Inspection Report\n\n';
   report += `Roof type: ${roofTypeLabel}\n`;
   report += `Roof condition: ${condLabels[riState.roofCondition] || 'Not assessed'}\n`;
   report += `Gutter condition: ${condLabels[riState.gutterCondition] || 'Not assessed'}\n`;
@@ -4757,12 +5109,10 @@ function generateInspectionReport() {
     const prevTotal = prevMen * prevHrs * rate;
     const urgGST = urgTotal * 0.1;
     const prevGST = prevTotal * 0.1;
-    const urgAdminCost = calcAdminCost(urgHrs);
-    const urgHarnessCost = calcHarnessCost(urgMen, urgHrs);
-    const prevAdminCost = calcAdminCost(prevHrs);
-    const prevHarnessCost = calcHarnessCost(prevMen, prevHrs);
-    const urgGrandTotal = urgTotal + urgGST + urgAdminCost + urgHarnessCost;
-    const prevGrandTotal = prevTotal + prevGST + prevAdminCost + prevHarnessCost;
+    const { adminCost: urgAdminCost, harnessCost: urgHarnessCost, rubbishCost: urgRubbishCost } = getQuoteOverheads(urgMen, urgHrs);
+    const { adminCost: prevAdminCost, harnessCost: prevHarnessCost, rubbishCost: prevRubbishCost } = getQuoteOverheads(prevMen, prevHrs);
+    const urgGrandTotal = urgTotal + urgGST + urgAdminCost + urgHarnessCost + urgRubbishCost;
+    const prevGrandTotal = prevTotal + prevGST + prevAdminCost + prevHarnessCost + prevRubbishCost;
 
     report += '── Labour & Pricing ──\n';
     report += `Priority/urgent works: ${urgMen} men × ${urg.hours} — $${urgGrandTotal.toFixed(2)} inc. GST\n`;
@@ -4773,9 +5123,8 @@ function generateInspectionReport() {
     const wholeMen = parseFloat(whole.men) || 1;
     const wholeTotal = wholeMen * wholeHrs * rate;
     const wholeGST = wholeTotal * 0.1;
-    const wholeAdminCost = calcAdminCost(wholeHrs);
-    const wholeHarnessCost = calcHarnessCost(wholeMen, wholeHrs);
-    const wholeGrandTotal = wholeTotal + wholeGST + wholeAdminCost + wholeHarnessCost;
+    const { adminCost: wholeAdminCost, harnessCost: wholeHarnessCost, rubbishCost: wholeRubbishCost } = getQuoteOverheads(wholeMen, wholeHrs);
+    const wholeGrandTotal = wholeTotal + wholeGST + wholeAdminCost + wholeHarnessCost + wholeRubbishCost;
 
     report += '── Labour & Pricing ──\n';
     report += `${wholeMen} men × ${whole.hours} — $${wholeGrandTotal.toFixed(2)} inc. GST\n\n`;
@@ -4806,6 +5155,7 @@ function saveInspectionReport() {
     report: report,
     quote: report,
     adminBreakdown: '',
+    jobDetails: normalizeJobDetails(riState.jobDetails),
     type: 'inspection'
   };
   savedReports.unshift(r);
@@ -4817,12 +5167,14 @@ function saveInspectionReport() {
 
 function resetInspectionForm() {
   riState = {
+    jobDetails: {},
     roofType: '', roofCondition: '', gutterCondition: '', mode: '',
     blocks: [], continuous: { items: {}, customItems: [] },
     urgent: false, urgentSelections: {}, labour: {}, notes: ''
   };
   riCurrentSec = 1;
   riBlockCounter = 0;
+  resetJobDetails('ri');
 
   document.getElementById('ri-roof-tile')?.classList.remove('selected');
   document.getElementById('ri-roof-metal')?.classList.remove('selected');
@@ -5020,6 +5372,7 @@ function startDictationObserver() {
 
 // ==================== GUTTER CLEAN / ROOF REPORT (completion report) ====================
 let grState = {
+  jobDetails: {},
   type: '',           // 'gutter' | 'both'
   access: '',
   roofCondition: '',
@@ -5164,6 +5517,8 @@ function grAdvanceFromConditions() {
 const GR_COND_LABELS = { poor: 'poor', average: 'average — should be monitored', satisfactory: 'satisfactory' };
 
 function generateGutterReportOnly() {
+  grState.jobDetails = getJobDetails('gr');
+  const jobDetails = normalizeJobDetails(grState.jobDetails);
   grState.repairsNotes = document.getElementById('gr-repairs-notes')?.value || '';
   grState.men = document.getElementById('gr-men')?.value || '2';
   grState.hours = document.getElementById('gr-hours')?.value || '3 hours';
@@ -5173,7 +5528,7 @@ function generateGutterReportOnly() {
   const gutterLabel = GR_COND_LABELS[grState.gutterCondition] || 'not assessed';
   const repairsWord = grState.repairsNeeded ? 'yes' : 'no';
 
-  let report = 'Gutter Clean Report\n\n';
+  let report = buildReportHeader('Gutter Clean Report', jobDetails);
   report += `After completing the gutter clean we found the roof to be in ${roofLabel} condition and the gutters to be in ${gutterLabel} condition, with ${repairsWord} obvious signs of repairs required.\n\n`;
   report += `── Job Details ──\nAccess: ${grState.access || 'Not specified'}\n`;
 
@@ -5187,7 +5542,7 @@ function generateGutterReportOnly() {
     report += 'Scope of Works:\n';
     report += '- Alert residents and set up safety signage\n';
     report += '- Fall restraint harness set up to comply with WHS requirements\n';
-    grState.repairItems.forEach(item => { if(item.type) report += `- ${item.type} x ${item.qty} ${item.unit}\n`; });
+    grState.repairItems.forEach(item => { if(item.type) report += `${formatQuoteItemLine(item)}\n`; });
     report += '- Provide photos/videos of completed works\n';
     report += '- Remove trade rubbish from site\n';
     if(!grState.urgent) {
@@ -5210,9 +5565,8 @@ function generateGutterReportOnly() {
       if(price !== null && !isNaN(price)) { materialCost += price * item.qty; anyPriced = true; }
     });
     const materialMarked = anyPriced ? materialCost / 0.3 : 0;
-    const adminCost = calcAdminCost(hrs);
-    const harnessCost = calcHarnessCost(men, hrs);
-    const grandTotal = labourCost + materialMarked + adminCost + harnessCost;
+    const { adminCost, harnessCost, rubbishCost } = getQuoteOverheads(men, hrs);
+    const grandTotal = labourCost + materialMarked + adminCost + harnessCost + rubbishCost;
 
     report += `\nEstimated total: $${grandTotal.toFixed(2)}`;
     report += `\n\nLabour Allowance:\nTradesmen required: ${men}\nEstimated time: ${grState.hours}`;
@@ -5226,6 +5580,7 @@ function generateGutterReportOnly() {
     }
     adminBreakdown += `Admin cost: $${adminCost.toFixed(2)}\n`;
     adminBreakdown += `Harness cost: $${harnessCost.toFixed(2)}\n`;
+    adminBreakdown += `Rubbish cost: $${rubbishCost.toFixed(2)}\n`;
     adminBreakdown += `Grand Total: $${grandTotal.toFixed(2)}`;
   }
 
@@ -5246,6 +5601,7 @@ function generateGutterReportOnly() {
 
 function saveGutterReportOnly() {
   const report = document.getElementById('gutterreport-output').value;
+  const jobDetails = normalizeJobDetails(grState.jobDetails);
   const r = {
     id: Date.now(),
     date: new Date().toLocaleDateString('en-AU'),
@@ -5254,6 +5610,7 @@ function saveGutterReportOnly() {
     report: report,
     quote: report,
     adminBreakdown: document.getElementById('gr-admin-content')?.textContent || '',
+    jobDetails,
     type: 'gutterreport'
   };
   savedReports.unshift(r);
@@ -5270,7 +5627,11 @@ function saveGutterReportOnly() {
  * (condition) is skipped automatically since that data already exists.
  */
 function handOffToRoofInspection() {
+  grState.jobDetails = getJobDetails('gr');
+  const jobDetails = normalizeJobDetails(grState.jobDetails);
   resetInspectionForm();
+  setJobDetailsFields('ri', jobDetails);
+  riState.jobDetails = jobDetails;
   riState.roofCondition = grState.roofCondition;
   riState.gutterCondition = grState.gutterCondition;
   riState.carriedOverFromGutterReport = true;
@@ -5286,12 +5647,14 @@ function handOffToRoofInspection() {
 
 function resetGutterReportForm() {
   grState = {
+    jobDetails: {},
     type: '', access: '', roofCondition: '', gutterCondition: '',
     repairsNeeded: false, repairsNotes: '', repairItems: [],
     urgent: false, men: '2', hours: '3 hours'
   };
   grCurrentSec = 0;
   grRepairItemCount = 0;
+  resetJobDetails('gr');
 
   document.querySelectorAll('#gr-sec-0 .gc-option-btn, #gr-sec-1 .gc-chip').forEach(b => b.classList.remove('selected'));
   ['roof','gutter'].forEach(kind => {
