@@ -1,8 +1,8 @@
 // Bump this version string every time you deploy an update.
 // Changing it forces old caches to be deleted and fresh files to be fetched.
 // New line
-const CACHE_VERSION = 'jsj-v14';
-const ASSETS = ['./index.html', './manifest.json', './icon-192.png', './icon-512.png'];
+const CACHE_VERSION = 'jsj-v15';
+const ASSETS = ['./index.html', './manifest.json', './icon-192.png', './icon-512.png', './logo.png'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE_VERSION).then(c => c.addAll(ASSETS)));
