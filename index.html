@@ -266,6 +266,14 @@ select option{background:#fff;color:var(--color-text-primary);}
   display:flex;align-items:center;gap:10px;
   padding:10px 0;border-bottom:1px solid var(--color-border-light);
 }
+.ri-item-row.ri-hidden{display:none;}
+.ri-colour-prompt.ri-hidden{display:none;}
+[data-downpipe-for].ri-hidden{display:none;}
+[data-colour-for].ri-hidden{display:none;}
+.ri-search-wrap{position:relative;margin-bottom:12px;}
+.ri-search-wrap::before{content:'🔍';position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:14px;pointer-events:none;}
+.ri-search-input{width:100%;padding:9px 12px 9px 34px;border:1.5px solid var(--color-border-light);border-radius:var(--radius-md);font-size:14px;background:var(--color-surface-secondary);color:var(--color-text-primary);font-family:inherit;box-sizing:border-box;}
+.ri-search-input:focus{outline:none;border-color:var(--color-blue);}
 .ri-item-row:last-child{border-bottom:none;}
 .ri-item-label{flex:1;font-size:13px;color:var(--color-text-primary);line-height:1.4;}
 .ri-item-label .ri-item-unit{color:var(--color-text-tertiary);font-size:11px;}
@@ -505,6 +513,10 @@ select option{background:#fff;color:var(--color-text-primary);}
   <div class="page-header">
     <div class="section-heading">Field Reports</div>
     <div class="section-sub">Select a job type to get started</div>
+
+    <div style="background:var(--color-dark-blue);border-radius:var(--radius-md);padding:14px 16px;margin-bottom:4px;">
+      <div style="font-size:17px;font-weight:800;color:#fff;line-height:1.4;text-align:center;">Please select the option which corresponds to your service M8 job</div>
+    </div>
   </div>
 
   <div class="home-tiles">
@@ -512,26 +524,53 @@ select option{background:#fff;color:var(--color-text-primary);}
     <div class="home-tile" onclick="openSection('leak')">
       <div class="home-tile-icon">🔧</div>
       <div class="home-tile-body">
-        <div class="home-tile-title">Leak Report</div>
-        <div class="home-tile-desc">Document a roof leak inspection, works completed and generate a professional report</div>
+        <div class="home-tile-title">Roof leak inspection</div>
+        <div class="home-tile-desc" style="color:var(--color-blue);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.5px;">Work order</div>
       </div>
       <div class="home-tile-arrow">›</div>
     </div>
 
-    <div class="home-tile" onclick="openSection('gutter')">
+    <div class="home-tile" onclick="openSection('gutter-gc')">
       <div class="home-tile-icon">🌿</div>
       <div class="home-tile-body">
-        <div class="home-tile-title">Gutter Clean / Roof Report Quote</div>
-        <div class="home-tile-desc">Generate a quote for gutter cleaning, a roof report, or both together</div>
+        <div class="home-tile-title">Gutter clean</div>
+        <div class="home-tile-desc" style="color:var(--color-green-dark,#5a7a00);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.5px;">Quote</div>
       </div>
       <div class="home-tile-arrow">›</div>
     </div>
 
-    <div class="home-tile" onclick="openSection('gutterreport')">
+    <div class="home-tile" onclick="openSection('gutter-both')">
+      <div class="home-tile-icon">🌿</div>
+      <div class="home-tile-body">
+        <div class="home-tile-title">Gutter clean &amp; roof report</div>
+        <div class="home-tile-desc" style="color:var(--color-green-dark,#5a7a00);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.5px;">Quote</div>
+      </div>
+      <div class="home-tile-arrow">›</div>
+    </div>
+
+    <div class="home-tile" onclick="openSection('gutter-rr')">
+      <div class="home-tile-icon">📋</div>
+      <div class="home-tile-body">
+        <div class="home-tile-title">Roof report</div>
+        <div class="home-tile-desc" style="color:var(--color-green-dark,#5a7a00);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.5px;">Quote</div>
+      </div>
+      <div class="home-tile-arrow">›</div>
+    </div>
+
+    <div class="home-tile" onclick="openSection('gutterreport-gc')">
       <div class="home-tile-icon">📝</div>
       <div class="home-tile-body">
-        <div class="home-tile-title">Gutter Clean / Roof Report</div>
-        <div class="home-tile-desc">Document a completed gutter clean, with an optional full roof report</div>
+        <div class="home-tile-title">Gutter clean only</div>
+        <div class="home-tile-desc" style="color:var(--color-blue);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.5px;">Work order</div>
+      </div>
+      <div class="home-tile-arrow">›</div>
+    </div>
+
+    <div class="home-tile" onclick="openSection('gutterreport-both')">
+      <div class="home-tile-icon">📝</div>
+      <div class="home-tile-body">
+        <div class="home-tile-title">Gutter clean &amp; roof report</div>
+        <div class="home-tile-desc" style="color:var(--color-blue);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.5px;">Work order</div>
       </div>
       <div class="home-tile-arrow">›</div>
     </div>
@@ -539,8 +578,8 @@ select option{background:#fff;color:var(--color-text-primary);}
     <div class="home-tile" onclick="openSection('inspection')">
       <div class="home-tile-icon">🔍</div>
       <div class="home-tile-body">
-        <div class="home-tile-title">Roof Inspection Report</div>
-        <div class="home-tile-desc">Complete a full roof condition inspection with tile or metal defect checklists</div>
+        <div class="home-tile-title">Roof inspection report</div>
+        <div class="home-tile-desc" style="color:var(--color-blue);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.5px;">Work order</div>
       </div>
       <div class="home-tile-arrow">›</div>
     </div>
@@ -552,11 +591,12 @@ select option{background:#fff;color:var(--color-text-primary);}
 <div class="page active" id="page-form">
   <div class="page-header">
     <button class="page-header-back" onclick="showPage('home')"><span class="page-header-back-arrow">‹</span> Home</button>
-    <div class="section-heading">Leak Report</div>
+    <div class="section-heading">Roof leak inspection</div>
     <div class="section-sub">Complete each step to generate your report</div>
   </div>
   <div class="steps" id="steps">
-    <div class="step active" id="step-1"></div>
+    <div class="step active" id="step-0"></div>
+    <div class="step" id="step-1"></div>
     <div class="step" id="step-2"></div>
     <div class="step" id="step-3"></div>
     <div class="step" id="step-4"></div>
@@ -564,8 +604,35 @@ select option{background:#fff;color:var(--color-text-primary);}
     <div class="step" id="step-6"></div>
   </div>
 
-  <div id="sec-1">
-    <div class="section-heading">Liaised with resident?</div>
+  <div id="multi-leak-banner" class="hidden" style="background:var(--color-dark-blue);border-radius:var(--radius-md);padding:10px 14px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;">
+    <div style="color:#fff;font-size:14px;font-weight:700;" id="multi-leak-label">💧 Leak 1</div>
+    <div style="color:rgba(255,255,255,.6);font-size:12px;" id="multi-leak-sub">Complete all steps, then add the next leak</div>
+  </div>
+
+  <div id="sec-0">
+    <div class="section-heading">How many leaks?</div>
+    <div class="section-sub">Are you reporting a single leak or multiple leaks at different locations?</div>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px;">
+      <button class="gc-option-btn" id="leak-count-single" onclick="setLeakMode('single')">
+        <span class="gc-option-icon">💧</span>
+        <div><div class="gc-option-title">Single leak</div><div class="gc-option-desc">One leak location to report</div></div>
+      </button>
+      <button class="gc-option-btn" id="leak-count-multiple" onclick="setLeakMode('multiple')">
+        <span class="gc-option-icon">💧💧</span>
+        <div><div class="gc-option-title">Multiple leaks — same building</div><div class="gc-option-desc">More than one leak in the same building or unit</div></div>
+      </button>
+      <button class="gc-option-btn" id="leak-count-multiple-units" onclick="setLeakMode('multiple-units')">
+        <span class="gc-option-icon">🏢</span>
+        <div><div class="gc-option-title">Multiple leaks — multiple units</div><div class="gc-option-desc">Leaks across different unit numbers — enter a unit number for each</div></div>
+      </button>
+    </div>
+    <div style="margin-top:20px;">
+      <button class="btn btn-primary" onclick="goSec(1)">Next →</button>
+    </div>
+  </div>
+
+  <div id="sec-1" class="hidden">
+    <div class="section-heading" id="sec1-heading">Liaised with resident?</div>
     <div class="section-sub">Did you speak with the resident on site?</div>
     <div class="yn-group">
       <button class="yn-btn active-yes" id="yn-yes" onclick="setYN('yes')">✓ Yes</button>
@@ -585,6 +652,8 @@ select option{background:#fff;color:var(--color-text-primary);}
         <option value="single storey">Single storey</option>
         <option value="double storey">Double storey</option>
         <option value="triple storey">Triple storey</option>
+        <option value="four storey">Four storey</option>
+        <option value="elevator access">Elevator access</option>
         <option value="manhole">Manhole</option>
         <option value="balcony">Balcony</option>
       </select>
@@ -606,13 +675,19 @@ select option{background:#fff;color:var(--color-text-primary);}
   <div id="sec-3" class="hidden">
     <div class="section-heading">Leak location</div>
     <div class="section-sub">Where was the leak reported? (select all that apply)</div>
+    <div id="sec-3-unit-wrap" class="hidden">
+      <div class="card" style="border-left:4px solid var(--color-blue);">
+        <label style="margin-top:0;font-weight:700;">🏢 Unit number</label>
+        <input type="text" id="leak-unit-number" placeholder="e.g. Unit 4, Level 2"/>
+      </div>
+    </div>
     <div class="card">
       <div class="check-grid" id="location-checks"></div>
       <label style="margin-top:12px;">Other location / additional notes</label>
       <input type="text" id="location-other" placeholder="e.g. master bedroom, north-facing wall"/>
     </div>
     <div class="btn-group">
-      <button class="btn btn-secondary" onclick="goSec(2)">← Back</button>
+      <button class="btn btn-secondary" onclick="leakEntries.length > 0 ? goSec(0) : goSec(2)">← Back</button>
       <button class="btn btn-primary" onclick="goSec(4)">Next →</button>
     </div>
   </div>
@@ -687,6 +762,7 @@ select option{background:#fff;color:var(--color-text-primary);}
       </div>
     </div>
 
+    <div id="sec-6-unrelated-block">
     <!-- Unrelated items noticed -->
     <div class="divider"></div>
     <div class="card" style="border-left:4px solid var(--color-blue);">
@@ -744,10 +820,12 @@ select option{background:#fff;color:var(--color-text-primary);}
         </div>
       </div>
     </div>
+    </div>
 
     <div class="btn-group" style="margin-top:16px;">
       <button class="btn btn-secondary" onclick="goSec(5)">← Back</button>
-      <button class="btn btn-green" onclick="generateReport()">▶ Generate Report</button>
+      <button class="btn btn-primary" id="add-another-leak-btn" style="display:none;" onclick="saveLeakAndContinue()">+ Add Next Leak</button>
+      <button class="btn btn-green" id="generate-report-btn" onclick="generateReport()">▶ Generate Report</button>
     </div>
   </div>
 </div>
@@ -946,8 +1024,8 @@ select option{background:#fff;color:var(--color-text-primary);}
 <div class="page" id="page-gutter">
   <div class="page-header">
     <button class="page-header-back" onclick="showPage('home')"><span class="page-header-back-arrow">‹</span> Home</button>
-    <div class="section-heading">Gutter Clean / Roof Report Quote</div>
-    <div class="section-sub">Complete the details to generate a scope of works</div>
+    <div class="section-heading" id="gc-page-heading">Gutter Clean / Roof Report Quote</div>
+    <div class="section-sub" id="gc-page-sub">Complete the details to generate a scope of works</div>
   </div>
 
   <!-- Step indicator -->
@@ -999,6 +1077,8 @@ select option{background:#fff;color:var(--color-text-primary);}
         <button class="gc-chip" id="gc-rr-access-Single storey" onclick="setGCRRAccess('Single storey')">Single storey</button>
         <button class="gc-chip" id="gc-rr-access-Double storey" onclick="setGCRRAccess('Double storey')">Double storey</button>
         <button class="gc-chip" id="gc-rr-access-Triple storey" onclick="setGCRRAccess('Triple storey')">Triple storey</button>
+        <button class="gc-chip" id="gc-rr-access-Four storey" onclick="setGCRRAccess('Four storey')">Four storey</button>
+        <button class="gc-chip" id="gc-rr-access-Elevator access" onclick="setGCRRAccess('Elevator access')">Elevator access</button>
         <button class="gc-chip" id="gc-rr-access-Manhole" onclick="setGCRRAccess('Manhole')">Manhole</button>
         <button class="gc-chip" id="gc-rr-access-Balcony" onclick="setGCRRAccess('Balcony')">Balcony</button>
       </div>
@@ -1085,6 +1165,8 @@ select option{background:#fff;color:var(--color-text-primary);}
         <button class="gc-chip" id="gc-access-Single storey" onclick="setGCAccess('Single storey')">Single storey</button>
         <button class="gc-chip" id="gc-access-Double storey" onclick="setGCAccess('Double storey')">Double storey</button>
         <button class="gc-chip" id="gc-access-Triple storey" onclick="setGCAccess('Triple storey')">Triple storey</button>
+        <button class="gc-chip" id="gc-access-Four storey" onclick="setGCAccess('Four storey')">Four storey</button>
+        <button class="gc-chip" id="gc-access-Elevator access" onclick="setGCAccess('Elevator access')">Elevator access</button>
         <button class="gc-chip" id="gc-access-Manhole" onclick="setGCAccess('Manhole')">Manhole</button>
         <button class="gc-chip" id="gc-access-Balcony" onclick="setGCAccess('Balcony')">Balcony</button>
       </div>
@@ -1183,48 +1265,12 @@ select option{background:#fff;color:var(--color-text-primary);}
     </div>
 
     <div id="gc-repairs-section" class="hidden">
-      <div id="gc-repairs-items-wrap"></div>
-      <button class="add-btn" onclick="addGCRepairItem()">+ Add repair item</button>
-
-      <div class="card" style="border-left:4px solid var(--color-warning);margin-top:14px;">
-        <div class="card-title" style="margin-top:0;color:var(--color-warning);"><span>⏱️</span> Works classification</div>
-        <div style="font-size:13px;color:var(--color-text-secondary);margin-bottom:10px;">Are any of these repairs urgent, or is this all preventative maintenance?</div>
-        <div class="yn-group">
-          <button class="yn-btn" id="gc-repairs-urgent-yes" onclick="setGCRepairsUrgency(true)">⚠️ Urgent works required</button>
-          <button class="yn-btn active-yes" id="gc-repairs-urgent-no" onclick="setGCRepairsUrgency(false)">✓ Preventative maintenance only</button>
-        </div>
+      <div class="card">
+        <label style="margin-top:0;">Unit number / block (if applicable)</label>
+        <input type="text" id="gc-repairs-location" placeholder="e.g. Unit 4, Block B"/>
       </div>
 
-      <div id="gc-repairs-urgent-container"></div>
-
-      <div id="gc-repairs-timeframe-wrap" class="card">
-        <label style="margin-top:0;">How long can these works be held off?</label>
-        <select id="gc-repairs-timeframe">
-          <option value="">Select a timeframe...</option>
-          <option>1 month</option><option>3 months</option><option selected>6 months</option>
-          <option>12 months</option><option>2 years</option>
-        </select>
-      </div>
-
-      <div class="card" style="margin-top:14px;">
-        <div class="card-title"><span>📅</span> Labour allowance</div>
-        <div class="row2">
-          <div>
-            <label>Tradesmen required</label>
-            <select id="gc-repairs-men">
-              <option>1</option><option selected>2</option><option>3</option><option>4</option>
-            </select>
-          </div>
-          <div>
-            <label>Estimated time</label>
-            <select id="gc-repairs-hours">
-              <option>1 hour</option><option selected>2 hours</option><option>3 hours</option>
-              <option>4 hours</option><option>5 hours</option><option>6 hours</option>
-              <option>Half day</option><option>Full day</option><option>2 days</option><option>3 days</option>
-            </select>
-          </div>
-        </div>
-      </div>
+      <div id="gc-repairs-items-container"></div>
     </div>
 
     <!-- Make safe works already completed -->
@@ -1273,6 +1319,56 @@ select option{background:#fff;color:var(--color-text-primary);}
     </div>
     <div class="btn-group">
       <button class="btn btn-secondary" onclick="gcGoSec(3)">← Back</button>
+      <button class="btn btn-primary" id="gc-sec4-next-btn" onclick="gcAdvanceFromFinishingUp()">Next →</button>
+    </div>
+  </div>
+
+  <!-- STEP 4b: Repairs — urgent vs preventative split (only shown when repairs were found) -->
+  <div id="gc-sec-4b" class="hidden">
+    <div class="section-heading">Repairs — urgency</div>
+    <div class="section-sub">Flag which repair items are urgent before generating the quote</div>
+
+    <div class="card" style="border-left:4px solid var(--color-warning);">
+      <div class="card-title" style="margin-top:0;color:var(--color-warning);"><span>⏱️</span> Works classification</div>
+      <div style="font-size:13px;color:var(--color-text-secondary);margin-bottom:10px;">Are any of the repairs in the scope urgent, or is this all preventative maintenance?</div>
+      <div class="yn-group">
+        <button class="yn-btn" id="gc-repairs-urgent-yes" onclick="setGCRepairsUrgency(true)">⚠️ Urgent works required</button>
+        <button class="yn-btn active-yes" id="gc-repairs-urgent-no" onclick="setGCRepairsUrgency(false)">✓ Preventative maintenance only</button>
+      </div>
+      <div id="gc-repairs-timeframe-wrap" style="margin-top:12px;">
+        <label style="margin-top:0;">How long can these works be held off?</label>
+        <select id="gc-repairs-timeframe">
+          <option value="">Select a timeframe...</option>
+          <option>1 month</option><option>3 months</option><option selected>6 months</option>
+          <option>12 months</option><option>2 years</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="gc-repairs-urgent-container"></div>
+
+    <div class="card">
+      <div class="card-title"><span>📅</span> Repairs labour allowance</div>
+      <div class="row2">
+        <div>
+          <label>Tradesmen required</label>
+          <select id="gc-repairs-men">
+            <option>1</option><option selected>2</option><option>3</option><option>4</option>
+          </select>
+        </div>
+        <div>
+          <label>Estimated time</label>
+          <select id="gc-repairs-hours">
+            <option>1 hour</option><option selected>2 hours</option><option>3 hours</option>
+            <option>4 hours</option><option>5 hours</option><option>6 hours</option>
+            <option>Half day</option><option>Full day</option><option>2 days</option><option>3 days</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn btn-secondary" onclick="gcGoSec(4)">← Back</button>
       <button class="btn btn-green" onclick="generateGutterQuote()">▶ Generate Quote</button>
     </div>
   </div>
@@ -1283,7 +1379,7 @@ select option{background:#fff;color:var(--color-text-primary);}
 <div class="page" id="page-inspection">
   <div class="page-header">
     <button class="page-header-back" onclick="showPage('home')"><span class="page-header-back-arrow">‹</span> Home</button>
-    <div class="section-heading">Roof Inspection Report</div>
+    <div class="section-heading">Roof inspection report</div>
     <div class="section-sub">Complete a full roof condition assessment</div>
   </div>
 
@@ -1463,8 +1559,8 @@ select option{background:#fff;color:var(--color-text-primary);}
 <div class="page" id="page-gutterreport">
   <div class="page-header">
     <button class="page-header-back" onclick="showPage('home')"><span class="page-header-back-arrow">‹</span> Home</button>
-    <div class="section-heading">Gutter Clean / Roof Report</div>
-    <div class="section-sub">Document a completed gutter clean</div>
+    <div class="section-heading" id="gr-page-heading">Gutter Clean / Roof Report</div>
+    <div class="section-sub" id="gr-page-sub">Document a completed gutter clean</div>
   </div>
 
   <div class="steps" id="gr-steps">
@@ -1503,6 +1599,8 @@ select option{background:#fff;color:var(--color-text-primary);}
         <button class="gc-chip" id="gr-access-Single storey" onclick="setGRAccess('Single storey')">Single storey</button>
         <button class="gc-chip" id="gr-access-Double storey" onclick="setGRAccess('Double storey')">Double storey</button>
         <button class="gc-chip" id="gr-access-Triple storey" onclick="setGRAccess('Triple storey')">Triple storey</button>
+        <button class="gc-chip" id="gr-access-Four storey" onclick="setGRAccess('Four storey')">Four storey</button>
+        <button class="gc-chip" id="gr-access-Elevator access" onclick="setGRAccess('Elevator access')">Elevator access</button>
         <button class="gc-chip" id="gr-access-Manhole" onclick="setGRAccess('Manhole')">Manhole</button>
         <button class="gc-chip" id="gr-access-Balcony" onclick="setGRAccess('Balcony')">Balcony</button>
       </div>
@@ -1533,6 +1631,19 @@ select option{background:#fff;color:var(--color-text-primary);}
       <div class="yn-group">
         <button class="yn-btn" id="gr-repairs-yes" onclick="setGRRepairsNeeded(true)">⚠️ Yes</button>
         <button class="yn-btn active-yes" id="gr-repairs-no" onclick="setGRRepairsNeeded(false)">✓ No</button>
+      </div>
+    </div>
+
+    <div class="card" style="border-left:4px solid var(--color-error);">
+      <div class="card-title" style="margin-top:0;color:var(--color-error);"><span>🚨</span> Make safe works required?</div>
+      <div style="font-size:13px;color:var(--color-text-secondary);margin-bottom:10px;">Were any make safe / emergency works carried out during this visit? (e.g. a tree fell and tiles were flashed to keep the roof watertight)</div>
+      <div class="yn-group">
+        <button class="yn-btn" id="gr-makesafe-yes" onclick="setGRMakeSafe(true)">⚠️ Yes</button>
+        <button class="yn-btn active-yes" id="gr-makesafe-no" onclick="setGRMakeSafe(false)">✓ No</button>
+      </div>
+      <div id="gr-makesafe-notes-wrap" class="hidden" style="margin-top:12px;">
+        <label style="margin-top:0;">Describe the make safe works completed</label>
+        <textarea id="gr-makesafe-notes" placeholder="e.g. Tree fell on rear of roof during storm — 4 cracked tiles flashed with silicone to make watertight pending permanent repair..."></textarea>
       </div>
     </div>
 
@@ -2104,6 +2215,7 @@ let state = {
   works:[], worksOther:'', quoteRequired:'yes', quoteItems:[],
   labourTradesmen:'2', labourTime:'2 hours',
   leakUrgent:false,
+  unitNumber:'',
   unrelatedNoticed:false, unrelatedUrgent:false, unrelatedItems:[], unrelatedReason:'',
   unrelatedLabourTradesmen:'2', unrelatedLabourTime:'2 hours'
 };
@@ -2135,21 +2247,195 @@ function showPage(p) {
 
 function openSection(section) {
   if(section==='leak') { showPage('form'); resetForm(); }
-  else if(section==='gutter') { resetGutterForm(); showPage('gutter'); }
   else if(section==='inspection') { resetInspectionForm(); showPage('inspection'); }
   else if(section==='gutterreport') { resetGutterReportForm(); showPage('gutterreport'); }
+
+  // Gutter Clean Quote variants — pre-select the quote type and skip step 0
+  else if(section==='gutter-gc') {
+    resetGutterForm();
+    setGCQuoteType('gutter');
+    document.getElementById('gc-page-heading').textContent = 'Gutter clean quote';
+    document.getElementById('gc-page-sub').textContent = 'Complete the details to generate a scope of works';
+    showPage('gutter');
+    gcGoSec(1);
+  }
+  else if(section==='gutter-both') {
+    resetGutterForm();
+    setGCQuoteType('both');
+    document.getElementById('gc-page-heading').textContent = 'Gutter clean & roof report quote';
+    document.getElementById('gc-page-sub').textContent = 'Complete the details to generate a scope of works';
+    showPage('gutter');
+    gcGoSec(1);
+  }
+  else if(section==='gutter-rr') {
+    resetGutterForm();
+    setGCQuoteType('roofreport');
+    document.getElementById('gc-page-heading').textContent = 'Roof report quote';
+    document.getElementById('gc-page-sub').textContent = 'Complete the details to generate a scope of works';
+    showPage('gutter');
+    gcGoSec('r1');
+  }
+
+  // Gutter Clean Work Order variants — pre-select the report type and skip step 0
+  else if(section==='gutterreport-gc') {
+    resetGutterReportForm();
+    setGRType('gutter');
+    document.getElementById('gr-page-heading').textContent = 'Gutter clean only';
+    document.getElementById('gr-page-sub').textContent = 'Document a completed gutter clean';
+    showPage('gutterreport');
+    grGoSec(1);
+  }
+  else if(section==='gutterreport-both') {
+    resetGutterReportForm();
+    setGRType('both');
+    document.getElementById('gr-page-heading').textContent = 'Gutter clean & roof report';
+    document.getElementById('gr-page-sub').textContent = 'Document a completed gutter clean and full roof report';
+    showPage('gutterreport');
+    grGoSec(1);
+  }
+
+  // Legacy entry point kept for any existing deep links
+  else if(section==='gutter') { resetGutterForm(); showPage('gutter'); }
+}
+
+// ==================== MULTI-LEAK STATE ====================
+let leakMode = 'single';   // 'single' | 'multiple'
+let leakEntries = [];      // saved leak states when in multiple mode
+let currentLeakNum = 1;    // which leak we're currently filling (1-based)
+
+function setLeakMode(val) {
+  leakMode = val;
+  document.getElementById('leak-count-single')?.classList.toggle('selected', val === 'single');
+  document.getElementById('leak-count-multiple')?.classList.toggle('selected', val === 'multiple');
+  document.getElementById('leak-count-multiple-units')?.classList.toggle('selected', val === 'multiple-units');
+}
+
+function updateMultiLeakBanner() {
+  const banner = document.getElementById('multi-leak-banner');
+  const label = document.getElementById('multi-leak-label');
+  const sub = document.getElementById('multi-leak-sub');
+  const addBtn = document.getElementById('add-another-leak-btn');
+  const genBtn = document.getElementById('generate-report-btn');
+  if(!banner) return;
+  const isMulti = leakMode === 'multiple' || leakMode === 'multiple-units';
+  if(isMulti) {
+    banner.classList.remove('hidden');
+    const unitSuffix = leakMode === 'multiple-units' && state.unitNumber ? ` — ${state.unitNumber}` : '';
+    if(label) label.textContent = `💧 Leak ${currentLeakNum}${unitSuffix}`;
+    if(sub) sub.textContent = leakEntries.length > 0
+      ? `${leakEntries.length} leak${leakEntries.length > 1 ? 's' : ''} saved — complete this one, then generate or add more`
+      : leakMode === 'multiple-units'
+        ? 'Enter the unit number and complete all steps for this leak'
+        : 'Complete all steps for this leak, then add the next one';
+    if(addBtn) addBtn.style.display = 'inline-flex';
+    if(genBtn) genBtn.textContent = leakEntries.length > 0 ? '▶ Generate All Reports' : '▶ Generate Report (1 leak)';
+  } else {
+    banner.classList.add('hidden');
+    if(addBtn) addBtn.style.display = 'none';
+    if(genBtn) genBtn.textContent = '▶ Generate Report';
+  }
+}
+
+/**
+ * Saves the current leak's state to the leakEntries array, then resets
+ * the form so the user can enter the next leak. Called when "Add Next Leak"
+ * is tapped at the end of sec-6.
+ */
+function saveLeakAndContinue() {
+  collectSec(currentSec);
+  collectUnrelatedItems();
+  // Deep-clone current state so it's independent of the next entry
+  leakEntries.push(JSON.parse(JSON.stringify(state)));
+  currentLeakNum++;
+  resetFormForNextLeak();
+}
+
+function resetFormForNextLeak() {
+  // Reset all form fields but keep leakMode, leakEntries, currentLeakNum.
+  // Carry over liaised/access from the first leak — same job, same tradesman.
+  const carriedLiaised = leakEntries.length > 0 ? leakEntries[0].liaised : 'yes';
+  const carriedAccess = leakEntries.length > 0 ? leakEntries[0].accessType : 'single storey';
+  const carriedDifficult = leakEntries.length > 0 ? leakEntries[0].difficultAccess : false;
+  const carriedDifficultReason = leakEntries.length > 0 ? leakEntries[0].difficultReason : '';
+
+  state = {
+    liaised: carriedLiaised,
+    accessType: carriedAccess,
+    difficultAccess: carriedDifficult,
+    difficultReason: carriedDifficultReason,
+    locations:[], locationOther:'', observations:[], obsOther:'',
+    works:[], worksOther:'', quoteRequired:'yes', quoteItems:[],
+    labourTradesmen:'2', labourTime:'2 hours',
+    leakUrgent:false,
+    unitNumber:'',
+    unrelatedNoticed:false, unrelatedUrgent:false, unrelatedItems:[], unrelatedReason:'',
+    unrelatedLabourTradesmen:'2', unrelatedLabourTime:'2 hours'
+  };
+  quoteCount = 0;
+  unrelatedQuoteCount = 0;
+
+  // Reset form UI fields (only the ones that change between leaks)
+  document.querySelectorAll('.check-item').forEach(el => el.classList.remove('checked'));
+  ['location-other','obs-other','works-other'].forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
+  setQuoteYN('yes');
+  setLeakUrgency(false);
+  setUnrelatedUrgency(false);
+  document.getElementById('quote-items-wrap').innerHTML = '';
+  document.getElementById('unrelated-items-wrap').innerHTML = '';
+  document.getElementById('unrelated-section').classList.add('hidden');
+  const unrelatedYes = document.getElementById('unrelated-yes');
+  const unrelatedNo = document.getElementById('unrelated-no');
+  if(unrelatedYes) unrelatedYes.className = 'yn-btn';
+  if(unrelatedNo) unrelatedNo.className = 'yn-btn active-yes';
+  document.getElementById('unrelated-timeframe-wrap').classList.remove('hidden');
+  if(document.getElementById('unrelated-timeframe')) document.getElementById('unrelated-timeframe').value = '6 months';
+
+  // Hide the "unrelated items" block for subsequent leaks —
+  // these are job-wide observations captured on the first leak only
+  document.getElementById('sec-6-unrelated-block')?.classList.add('hidden');
+
+  // Clear unit number field
+  const unitInput = document.getElementById('leak-unit-number');
+  if(unitInput) unitInput.value = '';
+
+  // Jump straight to step 3 (location) — steps 1 and 2 are the same for every leak
+  document.getElementById('sec-'+currentSec)?.classList.add('hidden');
+  for(let i=0;i<=6;i++) document.getElementById('sec-'+i)?.classList.add('hidden');
+  document.getElementById('sec-3').classList.remove('hidden');
+  document.querySelectorAll('#page-form .step').forEach((s,i) => {
+    s.classList.remove('active','done');
+    if(i < 3) s.classList.add('done');
+    else if(i === 3) s.classList.add('active');
+  });
+  currentSec = 3;
+
+  // Update back button on step 3 to go to step 3 itself (nowhere meaningful)
+  // — done by the leakEntries.length check in goSec
+  updateMultiLeakBanner();
+  window.scrollTo(0,0);
 }
 
 function goSec(n) {
-  collectSec(currentSec);
+  // Validate step 0 — must select leak count before proceeding
+  if(currentSec === 0 && n === 1 && !leakMode) { toast('Please select single or multiple leaks'); return; }  collectSec(currentSec);
   document.getElementById('sec-'+currentSec).classList.add('hidden');
   document.getElementById('sec-'+n).classList.remove('hidden');
-  document.querySelectorAll('#page-form .step').forEach((s,i)=>{
+  document.querySelectorAll('#page-form .step').forEach((s,i) => {
     s.classList.remove('active','done');
-    if(i+1<n) s.classList.add('done');
-    else if(i+1===n) s.classList.add('active');
+    if(i<n) s.classList.add('done');
+    else if(i===n) s.classList.add('active');
   });
-  currentSec=n;
+  currentSec = n;
+  // Show the unit number field on step 3 only when in multiple-units mode
+  if(n === 3) {
+    const unitWrap = document.getElementById('sec-3-unit-wrap');
+    if(unitWrap) unitWrap.classList.toggle('hidden', leakMode !== 'multiple-units');
+    const unitInput = document.getElementById('leak-unit-number');
+    if(unitInput) unitInput.value = state.unitNumber || '';
+  }
+  if(n === 6) updateMultiLeakBanner();
+  // Show multi-leak banner once they pass step 0 in multiple mode
+  if(n >= 1 && (leakMode === 'multiple' || leakMode === 'multiple-units')) updateMultiLeakBanner();
   window.scrollTo(0,0);
 }
 
@@ -2401,7 +2687,11 @@ function collectSec(n) {
     state.difficultAccess=document.getElementById('difficult-access').checked;
     state.difficultReason=document.getElementById('difficult-reason').value;
   }
-  if(n===3){ state.locations=getChecked('location-checks'); state.locationOther=document.getElementById('location-other').value; }
+  if(n===3){
+    state.locations=getChecked('location-checks');
+    state.locationOther=document.getElementById('location-other').value;
+    state.unitNumber=document.getElementById('leak-unit-number')?.value.trim() || '';
+  }
   if(n===4){ state.observations=getChecked('obs-checks'); state.obsOther=document.getElementById('obs-other').value; }
   if(n===5){ state.works=getChecked('works-checks'); state.worksOther=document.getElementById('works-other').value; }
   if(n===6){
@@ -2581,168 +2871,118 @@ function collectUnrelatedItems() {
 
 // ==================== REPORT GENERATION ====================
 function generateReport() {
-  collectSec(6);
+  collectSec(currentSec);
   collectUnrelatedItems();
-  const loc=[...state.locations,state.locationOther].filter(Boolean);
-  const obs=[...state.observations,state.obsOther].filter(Boolean);
-  const wrk=[...state.works,state.worksOther].filter(Boolean);
-  const liaisedIntro=state.liaised==='yes'?'After liaising with the resident and inspecting the reported leak,':'After inspecting the reported leak,';
-  const locStr=loc.length>0?loc.join(', ').toLowerCase():'the affected area';
-  const accessStr=state.accessType+(state.difficultAccess?` (difficult access — ${state.difficultReason})`:'');
-  let report='';
-  report+=`${liaisedIntro} we proceeded to the roof to investigate further. Access was completed via ${accessStr} roof access.\n\n`;
-  if(obs.length>0){
-    report+=`The reported leak was located within the ${locStr} area. Upon inspection, we identified the following: ${obs.map(o=>o.toLowerCase()).join(', ')}.\n\n`;
-  } else {
-    report+=`The reported leak was reported within the ${locStr} area. Upon inspection of the roof, we conducted a thorough assessment of all accessible roof elements.\n\n`;
-  }
-  const noWorksWet=wrk.some(w=>w.toLowerCase().includes('wet'));
-  const inspectOnly=wrk.some(w=>w.toLowerCase().includes('inspect'));
-  const tempMake=wrk.some(w=>w.toLowerCase().includes('make-safe')||w.toLowerCase().includes('temporary'));
-  if(noWorksWet){
-    report+=`Due to the roof being too wet at the time of our attendance, no works were able to be completed on the day. We will arrange to return once conditions are suitable to carry out the required repairs.\n\n`;
-  } else if(inspectOnly&&wrk.length<=2){
-    report+=`During our attendance, the roof was inspected and assessed. No immediate repairs were carried out at this stage.\n\n`;
-  } else {
-    const worksDone=wrk.filter(w=>!w.toLowerCase().includes('inspect')&&!w.toLowerCase().includes('only'));
-    if(worksDone.length>0) report+=`During our attendance, the following works were completed: ${worksDone.map(w=>w.toLowerCase()).join(', ')}.\n\n`;
-    if(tempMake) report+=`A temporary make-safe repair was completed during our attendance to reduce the risk of further water entry in the short term.\n\n`;
-  }
-  if(state.quoteRequired==='yes'){
-    if(state.leakUrgent) {
-      report+=`Due to the nature of the identified issues, these repairs are considered urgent and we recommend they be scheduled as a priority to prevent further water ingress or damage. Please refer to the below quotation for the recommended scope of works.`;
-    } else {
-      report+=`The temporary repair completed during our attendance should hold for the time being; however, we recommend further works be completed to provide a reliable long-term repair. Please refer to the below quotation for the recommended scope of works.`;
-    }
-  } else {
-    report+=`Upon completion of works, the affected area was left in a satisfactory condition. No further works are recommended at this stage. If the resident experiences any further water entry, please do not hesitate to contact our office.`;
-  }
 
-  if(state.unrelatedNoticed && state.unrelatedItems.length>0) {
-    report+=`\n\nDuring our attendance, we also noticed additional items unrelated to the reported leak that require attention.`;
-    if(state.unrelatedReason) report+=` ${state.unrelatedReason}`;
-    report+=` Please refer to the separate quotation below for these items.`;
-  }
+  // In multiple mode, push the current (last) leak into the entries array
+  const allLeaks = (leakMode === 'multiple' || leakMode === 'multiple-units')
+    ? [...leakEntries, JSON.parse(JSON.stringify(state))]
+    : [state];
 
-  // ==================== MAIN LEAK QUOTE ====================
-  let quote='Scope of Works\n';
-  quote+=`Works classification: ${state.leakUrgent ? 'Urgent works required' : 'Temporary repair will hold — preventative maintenance'}\n\n`;
-  quote+='- Alert residents and set up safety signage\n';
-  quote+='- Fall restraint harness set up to comply with WHS requirements\n';
-  if(state.quoteRequired==='yes'&&state.quoteItems.length>0){
-    state.quoteItems.forEach(item=>{ if(item.type) quote+=`- ${item.type} x ${item.qty} ${item.unit}\n`; });
-  }
-  quote+='- Provide photos/videos of completed works\n';
-  quote+='- Remove trade rubbish from site\n';
-  quote+='\nLabour Allowance:\n';
-  quote+=`Tradesmen required: ${state.labourTradesmen}\n`;
-  quote+=`Estimated time: ${state.labourTime}`;
-
-  // ---- PRICING FORMULA ----
-  // Labour: men × hours × rate
-  // Total: labourCost + (materialCost ÷ 0.3)
-  const hoursMap = {'1 hour':1,'2 hours':2,'3 hours':3,'4 hours':4,'5 hours':5,'6 hours':6,'Half day':4,'Full day':8,'2 days':16,'3 days':24};
-  let labourCost = 0;
-  let materialCost = 0;
-  let anyPriced = false;
+  let reportOut = '';
+  let quoteOut = '';
   let adminBreakdown = '';
+  const hoursMap = {'1 hour':1,'2 hours':2,'3 hours':3,'4 hours':4,'5 hours':5,'6 hours':6,'Half day':4,'Full day':8,'2 days':16,'3 days':24};
 
-  if(state.quoteRequired==='yes') {
-    const hours = hoursMap[state.labourTime] || parseFloat(state.labourTime) || 0;
-    const men = parseFloat(state.labourTradesmen) || 0;
-    labourCost = men * hours * getLabourRate();
+  allLeaks.forEach((s, idx) => {
+    const hasMultiple = allLeaks.length > 1;
+    const unitSuffix = s.unitNumber ? ` — ${s.unitNumber}` : '';
+    const leakLabel = hasMultiple ? `── Leak ${idx + 1}${unitSuffix}` : null;
+    const loc = [...s.locations, s.locationOther].filter(Boolean);
+    const obs = [...s.observations, s.obsOther].filter(Boolean);
+    const wrk = [...s.works, s.worksOther].filter(Boolean);
+    const liaisedIntro = s.liaised === 'yes' ? 'After liaising with the resident and inspecting the reported leak,' : 'After inspecting the reported leak,';
+    const locStr = loc.length > 0 ? loc.join(', ').toLowerCase() : 'the affected area';
+    const accessStr = s.accessType + (s.difficultAccess ? ` (difficult access — ${s.difficultReason})` : '');
 
-    if(state.quoteItems.length>0) {
-      state.quoteItems.forEach(item => {
+    if(leakLabel) reportOut += `${leakLabel} ──
+`;
+    reportOut += `${liaisedIntro} we proceeded to the roof to investigate further. Access was completed via ${accessStr} roof access.\n\n`;
+    if(obs.length > 0) {
+      reportOut += `The reported leak was located within the ${locStr} area. Upon inspection, we identified the following: ${obs.map(o=>o.toLowerCase()).join(', ')}.\n\n`;
+    } else {
+      reportOut += `The reported leak was reported within the ${locStr} area. Upon inspection of the roof, we conducted a thorough assessment of all accessible roof elements.\n\n`;
+    }
+    const noWorksWet = wrk.some(w=>w.toLowerCase().includes('wet'));
+    const inspectOnly = wrk.some(w=>w.toLowerCase().includes('inspect'));
+    const tempMake = wrk.some(w=>w.toLowerCase().includes('make-safe')||w.toLowerCase().includes('temporary'));
+    if(noWorksWet) {
+      reportOut += `Due to the roof being too wet at the time of our attendance, no works were able to be completed on the day. We will arrange to return once conditions are suitable to carry out the required repairs.\n\n`;
+    } else if(inspectOnly && wrk.length <= 2) {
+      reportOut += `During our attendance, the roof was inspected and assessed. No immediate repairs were carried out at this stage.\n\n`;
+    } else {
+      const worksDone = wrk.filter(w=>!w.toLowerCase().includes('inspect')&&!w.toLowerCase().includes('only'));
+      if(worksDone.length > 0) reportOut += `During our attendance, the following works were completed: ${worksDone.map(w=>w.toLowerCase()).join(', ')}.\n\n`;
+      if(tempMake) reportOut += `A temporary make-safe repair was completed during our attendance to reduce the risk of further water entry in the short term.\n\n`;
+    }
+    if(s.quoteRequired === 'yes') {
+      reportOut += s.leakUrgent
+        ? `Due to the nature of the identified issues, these repairs are considered urgent and we recommend they be scheduled as a priority to prevent further water ingress or damage. Please refer to the below quotation for the recommended scope of works.`
+        : `The temporary repair completed during our attendance should hold for the time being; however, we recommend further works be completed to provide a reliable long-term repair. Please refer to the below quotation for the recommended scope of works.`;
+    } else {
+      reportOut += `Upon completion of works, the affected area was left in a satisfactory condition. No further works are recommended at this stage. If the resident experiences any further water entry, please do not hesitate to contact our office.`;
+    }
+    if(s.unrelatedNoticed && s.unrelatedItems.length > 0) {
+      reportOut += `\n\nDuring our attendance, we also noticed additional items unrelated to the reported leak that require attention.`;
+      if(s.unrelatedReason) reportOut += ` ${s.unrelatedReason}`;
+      reportOut += ` Please refer to the separate quotation below for these items.`;
+    }
+    if(hasMultiple) reportOut += '\n\n';
+
+    // Scope/Quote for this leak
+    if(leakLabel) quoteOut += `\n\n${leakLabel} — Scope of Works ──\n`;
+    else if(idx === 0) quoteOut += 'Scope of Works\n';
+    quoteOut += `Works classification: ${s.leakUrgent ? 'Urgent works required' : 'Temporary repair will hold — preventative maintenance'}\n\n`;
+    quoteOut += '- Alert residents and set up safety signage\n';
+    quoteOut += '- Fall restraint harness set up to comply with WHS requirements\n';
+    if(s.quoteRequired === 'yes' && s.quoteItems.length > 0) {
+      s.quoteItems.forEach(item => { if(item.type) quoteOut += `- ${item.type} x ${item.qty} ${item.unit}\n`; });
+    }
+    quoteOut += '- Provide photos/videos of completed works\n';
+    quoteOut += '- Remove trade rubbish from site\n';
+    quoteOut += '\nLabour Allowance:\n';
+    quoteOut += `Tradesmen required: ${s.labourTradesmen}\n`;
+    quoteOut += `Estimated time: ${s.labourTime}`;
+
+    let leakAdminBreakdown = '';
+    if(s.quoteRequired === 'yes') {
+      const hours = hoursMap[s.labourTime] || parseFloat(s.labourTime) || 0;
+      const men = parseFloat(s.labourTradesmen) || 0;
+      const labourCost = men * hours * getLabourRate();
+      let materialCost = 0; let anyPriced = false;
+      s.quoteItems.forEach(item => {
         const price = getItemPrice(item.rawType !== 'Other (manual entry)' ? item.rawType : item.type);
-        if(price !== null && !isNaN(price)) {
-          materialCost += price * item.qty;
-          anyPriced = true;
-        }
+        if(price !== null && !isNaN(price)) { materialCost += price * item.qty; anyPriced = true; }
       });
+      const materialMarked = anyPriced ? materialCost / 0.3 : 0;
+      const adminCost = calcAdminCost(hours);
+      const harnessCost = calcHarnessCost(men, hours);
+      const grandTotal = labourCost + materialMarked + adminCost + harnessCost;
+      quoteOut += `\n\nEstimated total: $${grandTotal.toFixed(2)}`;
+      leakAdminBreakdown = `${leakLabel ? leakLabel + ' — ' : ''}Admin Breakdown:\n`;
+      leakAdminBreakdown += `Labour: ${men} men × ${hours} hrs × $${getLabourRate().toFixed(2)} = $${labourCost.toFixed(2)}\n`;
+      if(anyPriced) { leakAdminBreakdown += `Materials (cost): $${materialCost.toFixed(2)}\nMaterials (marked up ÷ 0.3): $${materialMarked.toFixed(2)}\n`; }
+      leakAdminBreakdown += `Admin cost: $${adminCost.toFixed(2)}\nHarness cost: $${harnessCost.toFixed(2)}\nGrand Total: $${grandTotal.toFixed(2)}`;
+      adminBreakdown += (adminBreakdown ? '\n\n' : '') + leakAdminBreakdown;
     }
 
-    const materialMarked = anyPriced ? materialCost / 0.3 : 0;
-    const adminCost = calcAdminCost(hours);
-    const harnessCost = calcHarnessCost(men, hours);
-    const grandTotal = labourCost + materialMarked + adminCost + harnessCost;
-
-    if(labourCost > 0 || anyPriced) {
-      quote += `\n\nEstimated total: $${grandTotal.toFixed(2)}`;
-      adminBreakdown = `── Admin Pricing Breakdown — Leak Repair ──\n`;
-      adminBreakdown += `Works classification: ${state.leakUrgent ? 'Urgent' : 'Temporary repair will hold'}\n`;
-      adminBreakdown += `Labour: ${men} men × ${hours} hrs × $${getLabourRate().toFixed(2)} = $${labourCost.toFixed(2)}\n`;
-      if(anyPriced) {
-        adminBreakdown += `Materials (cost): $${materialCost.toFixed(2)}\n`;
-        adminBreakdown += `Materials (marked up ÷ 0.3): $${materialMarked.toFixed(2)}\n`;
-      }
-      adminBreakdown += `Admin cost: $${adminCost.toFixed(2)}\n`;
-      adminBreakdown += `Harness cost: $${harnessCost.toFixed(2)}\n`;
-      adminBreakdown += `Grand Total: $${grandTotal.toFixed(2)}`;
+    if(s.unrelatedNoticed && s.unrelatedItems.length > 0) {
+      const uLabel = hasMultiple ? `\n\n${leakLabel} — Unrelated Items\n` : '\n\n';
+      quoteOut += `${uLabel}Scope of Works — Additional Items Noticed\n`;
+      quoteOut += `Works classification: ${s.unrelatedUrgent ? 'Urgent works required' : 'Preventative maintenance'}\n\n`;
+      if(s.unrelatedReason) quoteOut += `${s.unrelatedReason}\n\n`;
+      quoteOut += '- Alert residents and set up safety signage\n';
+      quoteOut += '- Fall restraint harness set up to comply with WHS requirements\n';
+      s.unrelatedItems.forEach(item => { if(item.type) quoteOut += `- ${item.type} x ${item.qty} ${item.unit}\n`; });
+      quoteOut += '- Provide photos/videos of completed works\n';
+      quoteOut += '- Remove trade rubbish from site\n';
+      if(!s.unrelatedUrgent && s.unrelatedTimeframe) quoteOut += `\nThese items are not urgent — we recommend they be addressed within approximately ${s.unrelatedTimeframe}.\n`;
     }
-  }
+  });
 
-  // ==================== UNRELATED ITEMS QUOTE (separate) ====================
-  let unrelatedQuote = '';
-  if(state.unrelatedNoticed && state.unrelatedItems.length>0) {
-    unrelatedQuote = 'Scope of Works — Additional Items Noticed (Unrelated to Reported Leak)\n';
-    unrelatedQuote += `Works classification: ${state.unrelatedUrgent ? 'Urgent works required' : 'Preventative maintenance'}\n\n`;
-    if(state.unrelatedReason) {
-      unrelatedQuote += `${state.unrelatedReason}\n\n`;
-    }
-    unrelatedQuote += '- Alert residents and set up safety signage\n';
-    unrelatedQuote += '- Fall restraint harness set up to comply with WHS requirements\n';
-    state.unrelatedItems.forEach(item => { if(item.type) unrelatedQuote += `- ${item.type} x ${item.qty} ${item.unit}\n`; });
-    unrelatedQuote += '- Provide photos/videos of completed works\n';
-    unrelatedQuote += '- Remove trade rubbish from site\n';
-    if(!state.unrelatedUrgent && state.unrelatedTimeframe) {
-      unrelatedQuote += `\nThese items are not urgent — we recommend they be addressed within approximately ${state.unrelatedTimeframe}.\n`;
-    }
-
-    const uMen = parseFloat(document.getElementById('unrelated-labour-tradesmen')?.value || '2');
-    const uTimeStr = document.getElementById('unrelated-labour-time')?.value || '2 hours';
-    const uHours = hoursMap[uTimeStr] || parseFloat(uTimeStr) || 0;
-    state.unrelatedLabourTradesmen = uMen;
-    state.unrelatedLabourTime = uTimeStr;
-
-    unrelatedQuote += '\nLabour Allowance:\n';
-    unrelatedQuote += `Tradesmen required: ${uMen}\n`;
-    unrelatedQuote += `Estimated time: ${uTimeStr}`;
-
-    const uLabourCost = uMen * uHours * getLabourRate();
-    let uMaterialCost = 0;
-    let uAnyPriced = false;
-    state.unrelatedItems.forEach(item => {
-      const price = getItemPrice(item.rawType !== 'Other (manual entry)' ? item.rawType : item.type);
-      if(price !== null && !isNaN(price)) {
-        uMaterialCost += price * item.qty;
-        uAnyPriced = true;
-      }
-    });
-    const uMaterialMarked = uAnyPriced ? uMaterialCost / 0.3 : 0;
-    const uAdminCost = calcAdminCost(uHours);
-    const uHarnessCost = calcHarnessCost(uMen, uHours);
-    const uGrandTotal = uLabourCost + uMaterialMarked + uAdminCost + uHarnessCost;
-
-    if(uLabourCost > 0 || uAnyPriced) {
-      unrelatedQuote += `\n\nEstimated total: $${uGrandTotal.toFixed(2)}`;
-      adminBreakdown += `\n\n── Admin Pricing Breakdown — Unrelated Items ──\n`;
-      adminBreakdown += `Works classification: ${state.unrelatedUrgent ? 'Urgent' : 'Preventative maintenance'}\n`;
-      adminBreakdown += `Labour: ${uMen} men × ${uHours} hrs × $${getLabourRate().toFixed(2)} = $${uLabourCost.toFixed(2)}\n`;
-      if(uAnyPriced) {
-        adminBreakdown += `Materials (cost): $${uMaterialCost.toFixed(2)}\n`;
-        adminBreakdown += `Materials (marked up ÷ 0.3): $${uMaterialMarked.toFixed(2)}\n`;
-      }
-      adminBreakdown += `Admin cost: $${uAdminCost.toFixed(2)}\n`;
-      adminBreakdown += `Harness cost: $${uHarnessCost.toFixed(2)}\n`;
-      adminBreakdown += `Grand Total: $${uGrandTotal.toFixed(2)}`;
-    }
-
-    quote += `\n\n─────────────────────\n\n${unrelatedQuote}`;
-  }
-
-  document.getElementById('report-output').value=report;
-  document.getElementById('quote-output').value=quote;
+  const locStr0 = [...allLeaks[0].locations, allLeaks[0].locationOther].filter(Boolean).join(', ').toLowerCase() || 'report';
+  document.getElementById('report-output').value = reportOut.trim();
+  document.getElementById('quote-output').value = quoteOut.trim();
 
   // Show/hide admin breakdown panel
   const adminPanel = document.getElementById('admin-pricing-panel');
@@ -2754,7 +2994,7 @@ function generateReport() {
     adminPanel.classList.add('hidden');
   }
 
-  const draft={id:Date.now(),date:new Date().toLocaleDateString('en-AU'),location:locStr,status:'complete',report,quote,adminBreakdown,state:JSON.parse(JSON.stringify(state))};
+  const draft={id:Date.now(),date:new Date().toLocaleDateString('en-AU'),location:locStr0,status:'complete',report:reportOut.trim(),quote:quoteOut.trim(),adminBreakdown,state:JSON.parse(JSON.stringify(state))};
   savedReports.unshift(draft);
   if(savedReports.length>50) savedReports=savedReports.slice(0,50);
   localStorage.setItem('jsj_reports',JSON.stringify(savedReports));
@@ -2839,7 +3079,20 @@ function loadReport(i) {
 
 // ==================== RESET ====================
 function resetForm() {
-  currentSec=1;
+  // Reset multi-leak state fully
+  leakMode = 'single';
+  leakEntries = [];
+  currentLeakNum = 1;
+  document.getElementById('leak-count-single')?.classList.remove('selected');
+  document.getElementById('leak-count-multiple')?.classList.remove('selected');
+  document.getElementById('leak-count-multiple-units')?.classList.remove('selected');
+  document.getElementById('multi-leak-banner')?.classList.add('hidden');
+  const addBtn = document.getElementById('add-another-leak-btn');
+  const genBtn = document.getElementById('generate-report-btn');
+  if(addBtn) addBtn.style.display = 'none';
+  if(genBtn) genBtn.textContent = '▶ Generate Report';
+
+  currentSec=0;
   document.querySelectorAll('.check-item').forEach(el=>el.classList.remove('checked'));
   ['location-other','obs-other','works-other','difficult-reason'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('difficult-access').checked=false;
@@ -2858,7 +3111,12 @@ function resetForm() {
   const reasonEl = document.getElementById('unrelated-reason');
   if(reasonEl) reasonEl.value='';
 
-  document.querySelectorAll('#page-form .step').forEach((s,i)=>{ s.classList.remove('done'); s.classList.toggle('active',i===0); });
+  // Show sec-0 (leak count selection), hide all others
+  for(let i=1;i<=6;i++) document.getElementById('sec-'+i)?.classList.add('hidden');
+  document.getElementById('sec-0')?.classList.remove('hidden');
+  // Restore unrelated items block (may have been hidden for subsequent leaks)
+  document.getElementById('sec-6-unrelated-block')?.classList.remove('hidden');
+  document.querySelectorAll('#page-form .step').forEach((s,i)=>{ s.classList.remove('done','active'); if(i===0) s.classList.add('active'); });
 }
 
 // ==================== TOAST ====================
@@ -2930,7 +3188,7 @@ updateOnlineStatus();
 // ==================== GUTTER CLEAN ====================
 const DEFAULT_GC_RATE = 230;
 let gcState = { quoteType: '', screen: 'none', roof: '', access: '', men: '2', hours: '3 hours', menQ2: '2', hoursQ2: '4 hours', notes: '', poorRoof: false, rrRoof: '', rrAccess: '', rrMen: '2', rrHours: '3 hours',
-  repairsFound: false, repairItems: [], repairsUrgent: false, repairUrgentKeys: [], repairsTimeframe: '', repairsMen: '2', repairsHours: '2 hours',
+  repairsFound: false, repairItems: [], repairsUrgent: false, repairUrgentKeys: [], repairsTimeframe: '', repairsLocation: '', repairsMen: '2', repairsHours: '2 hours',
   makeSafeDone: false, makeSafeNotes: '', makeSafeItems: [], makeSafeMen: '2', makeSafeHours: '2 hours' };
 let gcCurrentSec = 0;
 
@@ -2994,7 +3252,7 @@ function setGCRoof(val) {
 }
 function setGCAccess(val) {
   gcState.access = val;
-  ['Single storey','Double storey','Triple storey','Manhole','Balcony'].forEach(v => {
+  ['Single storey','Double storey','Triple storey','Four storey','Elevator access','Manhole','Balcony'].forEach(v => {
     const el = document.getElementById('gc-access-'+v);
     if(el) el.classList.toggle('selected', v === val);
   });
@@ -3007,15 +3265,30 @@ function setGCPoorRoof(val) {
   document.getElementById('gc-poor-info').classList.toggle('hidden', !val);
 }
 
-// ==================== GUTTER CLEAN — REPAIRS FOUND ====================
-let gcRepairItemCount = 0;
+// ==================== GUTTER CLEAN — REPAIRS FOUND (uses Roof Inspection's item engine) ====================
 
 function setGCRepairsYN(val) {
   gcState.repairsFound = val;
   document.getElementById('gc-repairs-yes').className = 'yn-btn' + (val ? ' active-no' : '');
   document.getElementById('gc-repairs-no').className = 'yn-btn' + (!val ? ' active-yes' : '');
   document.getElementById('gc-repairs-section').classList.toggle('hidden', !val);
-  if(val && gcRepairItemCount === 0) addGCRepairItem();
+  if(val) gcRenderRepairsItemList();
+}
+
+/**
+ * Called from the "Next" button on the Finishing Up step. If repairs were
+ * found, this routes to the dedicated Repairs — Urgency step (4b) instead
+ * of generating the quote immediately, so urgent/preventative items can be
+ * picked on their own clear screen. If no repairs were found, it goes
+ * straight to generating the quote as before.
+ */
+function gcAdvanceFromFinishingUp() {
+  gcState.notes = document.getElementById('gc-notes')?.value || '';
+  if(gcState.repairsFound) {
+    gcGoSec('4b');
+  } else {
+    generateGutterQuote();
+  }
 }
 
 function setGCRepairsUrgency(val) {
@@ -3029,52 +3302,100 @@ function setGCRepairsUrgency(val) {
   document.getElementById('gc-repairs-timeframe-wrap').classList.toggle('hidden', val);
 }
 
-function addGCRepairItem() {
-  gcRepairItemCount++;
-  const id = 'gcr' + gcRepairItemCount;
-  const div = document.createElement('div');
-  div.className = 'quote-item'; div.id = 'qi-' + id;
-  div.innerHTML = `
-    <div class="quote-item-header">
-      <span class="quote-item-num">Item ${gcRepairItemCount}</span>
-      <button class="remove-btn" onclick="removeGCRepairItem('${id}')">✕ Remove</button>
-    </div>
-    <label>Repair item</label>
-    <select id="qi-type-${id}" onchange="checkManual('${id}'); gcRenderRepairUrgentUI();">
-      ${getQuoteOptions().map(o=>`<option>${o}</option>`).join('')}
-    </select>
-    <div id="qi-manual-wrap-${id}" class="hidden" style="margin-top:8px;">
-      <label>Describe repair</label>
-      <input type="text" id="qi-manual-${id}" placeholder="e.g. Supply and install stop end to nominated gutter"/>
-    </div>
-    <div class="row2" style="margin-top:10px;">
-      <div><label>Quantity</label><input type="number" id="qi-qty-${id}" value="1" min="1" onchange="gcRenderRepairUrgentUI()"/></div>
-      <div><label>Unit</label><select id="qi-unit-${id}">${getUnitOptions().map(o=>`<option>${o}</option>`).join('')}</select></div>
-    </div>`;
-  document.getElementById('gc-repairs-items-wrap').appendChild(div);
-  if(gcState.repairsUrgent) gcRenderRepairUrgentUI();
+/**
+ * Renders the full Roof Inspection-style scope builder (item checklist
+ * with quantity steppers, colour prompts, downpipe flow, and the
+ * Additional Items section) into the Gutter Clean repairs section. Reuses
+ * riRenderItemList/riCustomItemsHTML directly against the 'gc-repairs'
+ * scope, so it's the exact same builder as Roof Inspection — just backed
+ * by its own independent storage (gcRepairsScope) instead of riState.
+ */
+/**
+ * Generates a search bar input for a given scopeId. As the user types,
+ * item rows in the scope are filtered live by their label text.
+ */
+function riSearchBarHTML(scopeId) {
+  return `<div class="ri-search-wrap">
+    <input type="text" class="ri-search-input" placeholder="Search items..."
+      oninput="riFilterItems('${scopeId}', this.value)" autocomplete="off" autocorrect="off" autocapitalize="off"/>
+  </div>`;
 }
 
-function removeGCRepairItem(id) {
-  document.getElementById('qi-' + id)?.remove();
-  gcState.repairUrgentKeys = gcState.repairUrgentKeys.filter(k => k !== id);
-  if(gcState.repairsUrgent) gcRenderRepairUrgentUI();
+function riFilterItems(scopeId, query) {
+  const q = query.toLowerCase().trim();
+  const listEl = document.getElementById('ri-item-list-' + scopeId);
+  if(!listEl) return;
+  // Each item row may have sibling colour-prompt or downpipe rows immediately after it.
+  // We need to hide/show those too, so they don't appear orphaned when the item itself is hidden.
+  listEl.querySelectorAll('.ri-item-row[data-item-id]').forEach(row => {
+    const label = (row.querySelector('.ri-item-label')?.textContent || '').toLowerCase();
+    const hide = q.length > 0 && !label.includes(q);
+    row.classList.toggle('ri-hidden', hide);
+    // Also hide the associated colour prompts and downpipe rows that follow this item
+    const itemId = row.dataset.itemId;
+    if(itemId) {
+      listEl.querySelectorAll(`[data-colour-for="${itemId}"], [data-downpipe-for="${itemId}"]`).forEach(el => {
+        el.classList.toggle('ri-hidden', hide);
+      });
+    }
+  });
+}
+
+function gcRenderRepairsItemList() {
+  const container = document.getElementById('gc-repairs-items-container');
+  if(!container) return;
+  container.innerHTML = `
+    <div class="card">
+      <div class="card-title" style="margin-top:0;"><span>📋</span> Repair items</div>
+      ${riSearchBarHTML('gc-repairs')}
+      <div id="ri-item-list-gc-repairs">${riRenderItemList('gc-repairs')}</div>
+      ${riCustomItemsHTML('gc-repairs')}
+    </div>
+  `;
+}
+
+/**
+ * Collects every entered item from the Gutter Clean repairs scope into a
+ * flat list (standard items + custom items), in the same shape used for
+ * pricing and the urgent/preventative checklist.
+ */
+function gcGetRepairItemsFlat() {
+  const items = getRIItemList('gc-repairs');
+  const scope = gcRepairsScope;
+  const flat = [];
+
+  items.forEach(item => {
+    const data = scope.items[item.id];
+    if(!data) return;
+    if(item.downpipe) {
+      const lm = riGetDownpipeTotalLm(data);
+      if(lm > 0) flat.push({ key: item.id, label: item.label, qty: data.downpipe.numDownpipes || 0, unit: 'downpipes', isDownpipe: true, lm, priceLabel: item.label });
+    } else if(data.qty > 0) {
+      let label = item.label;
+      if(item.colourPrompts && item.colourPrompts.length) {
+        const colourParts = item.colourPrompts
+          .map(cp => data.colours && data.colours[cp.key] ? `${cp.label}: ${data.colours[cp.key]}` : null)
+          .filter(Boolean);
+        if(colourParts.length) label += ` (${colourParts.join(', ')})`;
+      }
+      flat.push({ key: item.id, label, qty: data.qty, unit: item.unit || '', priceLabel: item.label });
+    }
+  });
+
+  (scope.customItems || []).forEach((ci, idx) => {
+    const key = 'custom_' + idx;
+    flat.push({ key, label: ci.label, qty: ci.qty, unit: ci.unit || '', priceLabel: ci.label });
+  });
+
+  return flat;
 }
 
 function collectGCRepairItems() {
-  gcState.repairItems = [];
-  document.querySelectorAll('#gc-repairs-items-wrap .quote-item').forEach(el => {
-    const id = el.id.replace('qi-','');
-    const type = document.getElementById('qi-type-'+id)?.value || '';
-    const manual = document.getElementById('qi-manual-'+id)?.value || '';
-    const qty = parseFloat(document.getElementById('qi-qty-'+id)?.value || '1');
-    const unit = document.getElementById('qi-unit-'+id)?.value || 'Each';
-    const resolvedType = type === 'Other (manual entry)' ? manual : type;
-    gcState.repairItems.push({ key: id, type: resolvedType, rawType: type, qty, unit });
-  });
+  gcState.repairItems = gcGetRepairItemsFlat();
   gcState.repairsMen = document.getElementById('gc-repairs-men')?.value || '2';
   gcState.repairsHours = document.getElementById('gc-repairs-hours')?.value || '2 hours';
   gcState.repairsTimeframe = document.getElementById('gc-repairs-timeframe')?.value || '';
+  gcState.repairsLocation = document.getElementById('gc-repairs-location')?.value.trim() || '';
 }
 
 /**
@@ -3089,8 +3410,8 @@ function gcRenderRepairUrgentUI() {
   if(!container) return;
   if(!gcState.repairsUrgent) { container.innerHTML = ''; return; }
 
-  const rows = [...document.querySelectorAll('#gc-repairs-items-wrap .quote-item')];
-  if(rows.length === 0) {
+  const entered = gcGetRepairItemsFlat();
+  if(entered.length === 0) {
     container.innerHTML = `<div class="empty" style="padding:16px;"><div style="font-size:13px;">Add a repair item above to mark it urgent.</div></div>`;
     return;
   }
@@ -3099,16 +3420,12 @@ function gcRenderRepairUrgentUI() {
     <div class="card-title" style="margin-top:0;color:var(--color-error);"><span>⚠️</span> Mark which items are urgent</div>
     <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:8px;">Tick any items below that require urgent attention. Untouched items are treated as preventative maintenance.</div>`;
 
-  rows.forEach(row => {
-    const id = row.id.replace('qi-','');
-    const select = document.getElementById('qi-type-'+id);
-    const qtyInput = document.getElementById('qi-qty-'+id);
-    const label = select ? select.value : `Item`;
-    const qty = qtyInput ? qtyInput.value : '1';
-    const checked = gcState.repairUrgentKeys.includes(id);
+  entered.forEach(item => {
+    const checked = gcState.repairUrgentKeys.includes(item.key);
+    const qtyLabel = item.isDownpipe ? `${item.qty} downpipes, ${item.lm} L/m` : `${item.qty}${item.unit ? ' ' + item.unit : ''}`;
     html += `<div class="ri-urgent-item">
-      <input type="checkbox" id="gc-urg-${id}" ${checked ? 'checked' : ''} onchange="gcToggleRepairUrgent('${id}',this.checked)"/>
-      <label for="gc-urg-${id}">${label} x ${qty}</label>
+      <input type="checkbox" id="gc-urg-${item.key}" ${checked ? 'checked' : ''} onchange="gcToggleRepairUrgent('${item.key}',this.checked)"/>
+      <label for="gc-urg-${item.key}">${item.label} x ${qtyLabel}</label>
     </div>`;
   });
 
@@ -3189,7 +3506,7 @@ function setGCRRRoof(val) {
 
 function setGCRRAccess(val) {
   gcState.rrAccess = val;
-  ['Single storey','Double storey','Triple storey','Manhole','Balcony'].forEach(v => {
+  ['Single storey','Double storey','Triple storey','Four storey','Elevator access','Manhole','Balcony'].forEach(v => {
     document.getElementById('gc-rr-access-'+v)?.classList.toggle('selected', v === val);
   });
 }
@@ -3254,12 +3571,17 @@ function gcGoSec(n) {
     }
   }
 
+  // Repairs urgency step needs the checklist (re)rendered with current items every time it's entered
+  if(n === '4b') {
+    gcRenderRepairUrgentUI();
+  }
+
   document.getElementById('gc-sec-'+gcCurrentSec).classList.add('hidden');
   document.getElementById('gc-sec-'+n).classList.remove('hidden');
 
   // Update step dots — map both numeric and r1/r2 sections onto the same dot trail
   const stepOrder = ['0','1','2','3','4','5'];
-  const dotIndexMap = { '0':0, 'r1':1, 'r2':2, '1':1, '2':2, '3':3, '4':4, '5':5 };
+  const dotIndexMap = { '0':0, 'r1':1, 'r2':2, '1':1, '2':2, '3':3, '4':4, '4b':5, '5':5 };
   const currentDot = dotIndexMap[String(n)] ?? 0;
   for(let i = 0; i <= 5; i++) {
     const el = document.getElementById('gc-step-'+i);
@@ -3464,16 +3786,21 @@ function generateGutterQuote() {
       const preventItems = gcState.repairsUrgent ? gcState.repairItems.filter(i => !gcState.repairUrgentKeys.includes(i.key)) : gcState.repairItems;
 
       let repairsQuote = 'Scope of Works — Repairs Found During Gutter Clean\n';
+      if(gcState.repairsLocation) repairsQuote += `Location: ${gcState.repairsLocation}\n`;
       repairsQuote += `Works classification: ${gcState.repairsUrgent ? 'Urgent works required' : 'Preventative maintenance'}\n\n`;
+
+      const formatRepairLine = item => item.isDownpipe
+        ? `- ${item.label} x ${item.qty} downpipe${item.qty !== 1 ? 's' : ''}, ${item.lm} L/m total`
+        : `- ${item.label} x ${item.qty}${item.unit ? ' ' + item.unit : ''}`;
 
       if(urgentItems.length > 0) {
         repairsQuote += '── ⚠ Priority Items — Urgent Attention Required ──\n';
-        urgentItems.forEach(item => { if(item.type) repairsQuote += `- ${item.type} x ${item.qty} ${item.unit}\n`; });
+        urgentItems.forEach(item => { repairsQuote += formatRepairLine(item) + '\n'; });
         repairsQuote += '\n';
       }
       if(preventItems.length > 0) {
         repairsQuote += urgentItems.length > 0 ? '── Preventative Maintenance — Remaining Items ──\n' : 'Scope of Works:\n';
-        preventItems.forEach(item => { if(item.type) repairsQuote += `- ${item.type} x ${item.qty} ${item.unit}\n`; });
+        preventItems.forEach(item => { repairsQuote += formatRepairLine(item) + '\n'; });
         if(!gcState.repairsUrgent && gcState.repairsTimeframe) {
           repairsQuote += `\nThese items are not urgent — we recommend they be addressed within approximately ${gcState.repairsTimeframe}.\n`;
         }
@@ -3488,8 +3815,9 @@ function generateGutterQuote() {
       let rMaterialCost = 0;
       let rAnyPriced = false;
       gcState.repairItems.forEach(item => {
-        const price = getItemPrice(item.rawType !== 'Other (manual entry)' ? item.rawType : item.type);
-        if(price !== null && !isNaN(price)) { rMaterialCost += price * item.qty; rAnyPriced = true; }
+        const qtyForPricing = item.isDownpipe ? item.lm : item.qty;
+        const price = getItemPrice(item.priceLabel);
+        if(price !== null && !isNaN(price)) { rMaterialCost += price * qtyForPricing; rAnyPriced = true; }
       });
       const rMaterialMarked = rAnyPriced ? rMaterialCost / 0.3 : 0;
       const rAdminCost = calcAdminCost(rHrs);
@@ -3606,12 +3934,12 @@ function saveGutterReport() {
 
 function resetGutterForm() {
   gcState = { quoteType: '', screen: 'none', roof: '', access: '', men: '2', hours: '3 hours', menQ2: '2', hoursQ2: '4 hours', notes: '', poorRoof: false, rrRoof: '', rrAccess: '', rrMen: '2', rrHours: '3 hours',
-    repairsFound: false, repairItems: [], repairsUrgent: false, repairUrgentKeys: [], repairsTimeframe: '', repairsMen: '2', repairsHours: '2 hours',
+    repairsFound: false, repairItems: [], repairsUrgent: false, repairUrgentKeys: [], repairsTimeframe: '', repairsLocation: '', repairsMen: '2', repairsHours: '2 hours',
     makeSafeDone: false, makeSafeNotes: '', makeSafeItems: [], makeSafeMen: '2', makeSafeHours: '2 hours' };
   gcCurrentSec = 0;
   document.querySelectorAll('.gc-option-btn').forEach(b => b.classList.remove('selected'));
   document.querySelectorAll('.gc-chip').forEach(b => b.classList.remove('selected'));
-  ['gc-sec-1','gc-sec-2','gc-sec-3','gc-sec-4','gc-sec-r1','gc-sec-r2'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
+  ['gc-sec-1','gc-sec-2','gc-sec-3','gc-sec-4','gc-sec-4b','gc-sec-r1','gc-sec-r2'].forEach(id => document.getElementById(id)?.classList.add('hidden'));
   document.getElementById('gc-sec-0')?.classList.remove('hidden');
   for(let i=0; i<=5; i++) {
     const el = document.getElementById('gc-step-'+i);
@@ -3639,9 +3967,10 @@ function resetGutterForm() {
   if(sec4Sub) sec4Sub.textContent = 'Add any notes and flag roof condition';
   setGCScreen('none');
 
-  // Reset Repairs Found section
-  gcRepairItemCount = 0;
-  document.getElementById('gc-repairs-items-wrap').innerHTML = '';
+  // Reset Repairs Found section (Roof Inspection-style item builder)
+  gcRepairsScope = { items: {}, customItems: [] };
+  gcState.repairUrgentKeys = [];
+  document.getElementById('gc-repairs-items-container').innerHTML = '';
   document.getElementById('gc-repairs-urgent-container').innerHTML = '';
   document.getElementById('gc-repairs-urgent-container').classList.add('hidden');
   document.getElementById('gc-repairs-yes').className = 'yn-btn';
@@ -3651,6 +3980,7 @@ function resetGutterForm() {
   document.getElementById('gc-repairs-urgent-no').className = 'yn-btn active-yes';
   document.getElementById('gc-repairs-timeframe-wrap').classList.remove('hidden');
   if(document.getElementById('gc-repairs-timeframe')) document.getElementById('gc-repairs-timeframe').value = '6 months';
+  if(document.getElementById('gc-repairs-location')) document.getElementById('gc-repairs-location').value = '';
 
   // Reset Make Safe Works section
   gcMakeSafeItemCount = 0;
@@ -3751,7 +4081,20 @@ let riState = {
 let riCurrentSec = 1;
 let riBlockCounter = 0;
 
-function getRIItemList() {
+function getRIItemList(scopeId) {
+  if(scopeId === 'gc-repairs') {
+    // Gutter Clean reuses the roof type already selected earlier in its
+    // own flow — no need to ask again. "Mixed" shows both checklists
+    // combined into one list, deduplicated by item id.
+    if(gcState.roof === 'Metal') return riGetItemListFor('metal');
+    if(gcState.roof === 'Mixed') {
+      const tile = riGetItemListFor('tile');
+      const metal = riGetItemListFor('metal');
+      const seen = new Set(tile.map(i => i.id));
+      return [...tile, ...metal.filter(i => !seen.has(i.id))];
+    }
+    return riGetItemListFor('tile');
+  }
   return riGetItemListFor(riState.roofType === 'metal' ? 'metal' : 'tile');
 }
 
@@ -4114,8 +4457,14 @@ function riDownpipeSizeRowHTML(item, scopeId, pipeKey, pipeData, pipeNum) {
   return html;
 }
 
+// Standalone scope storage for the Gutter Clean "Repairs found" section,
+// which reuses the entire Roof Inspection item-builder engine (steppers,
+// colour prompts, downpipe flow, custom items) via the same scopeId system.
+let gcRepairsScope = { items: {}, customItems: [] };
+
 function riGetScopeData(scopeId) {
   if(scopeId === 'continuous') return riState.continuous;
+  if(scopeId === 'gc-repairs') return gcRepairsScope;
   const block = riState.blocks.find(b => b.id === scopeId);
   return block;
 }
@@ -4228,7 +4577,7 @@ function riRerenderDownpipePrompts(scopeId, itemId) {
 }
 
 function riRenderItemList(scopeId) {
-  const items = getRIItemList();
+  const items = getRIItemList(scopeId);
   const scope = riGetScopeData(scopeId);
   return items.map(item => riItemRowHTML(item, scopeId, scope.items[item.id])).join('');
 }
@@ -4367,7 +4716,8 @@ function riRenderBlocks() {
         </div>
         <button class="ri-block-remove" onclick="riRemoveBlock('${block.id}')">✕ Remove</button>
       </div>
-      <div>${riRenderItemList(block.id)}</div>
+      ${riSearchBarHTML(block.id)}
+      <div id="ri-item-list-${block.id}">${riRenderItemList(block.id)}</div>
       ${riCustomItemsHTML(block.id)}
     </div>
   `).join('');
@@ -4378,7 +4728,8 @@ function riRenderContinuous() {
   container.innerHTML = `
     <div class="card">
       <div class="card-title" style="margin-top:0;"><span>📋</span> Roof-wide items</div>
-      <div>${riRenderItemList('continuous')}</div>
+      ${riSearchBarHTML('continuous')}
+      <div id="ri-item-list-continuous">${riRenderItemList('continuous')}</div>
       ${riCustomItemsHTML('continuous')}
     </div>
   `;
@@ -4396,7 +4747,7 @@ function setRIUrgency(val) {
 function riGetEnteredItemsForScope(scopeId) {
   const scope = riGetScopeData(scopeId);
   if(!scope) return [];
-  const items = getRIItemList();
+  const items = getRIItemList(scopeId);
   const entered = [];
   items.forEach(item => {
     const data = scope.items[item.id];
@@ -4519,7 +4870,7 @@ function riRenderLabourUI() {
 function riFormatScopeReport(scopeId, scopeLabel) {
   const scope = riGetScopeData(scopeId);
   if(!scope) return { urgentLines: [], normalLines: [], blockNotes: '' };
-  const items = getRIItemList();
+  const items = getRIItemList(scopeId);
   const urgentKeys = riState.urgentSelections[scopeId] || [];
   let urgentLines = [];
   let normalLines = [];
@@ -5029,7 +5380,9 @@ let grState = {
   repairItems: [],
   urgent: false,
   men: '2',
-  hours: '3 hours'
+  hours: '3 hours',
+  makeSafe: false,
+  makeSafeNotes: ''
 };
 let grCurrentSec = 0;
 let grRepairItemCount = 0;
@@ -5041,7 +5394,7 @@ function setGRType(val) {
 
 function setGRAccess(val) {
   grState.access = val;
-  ['Single storey','Double storey','Triple storey','Manhole','Balcony'].forEach(v => {
+  ['Single storey','Double storey','Triple storey','Four storey','Elevator access','Manhole','Balcony'].forEach(v => {
     document.getElementById('gr-access-'+v)?.classList.toggle('selected', v === val);
   });
 }
@@ -5062,6 +5415,13 @@ function setGRRepairsNeeded(val) {
   grState.repairsNeeded = val;
   document.getElementById('gr-repairs-yes').className = 'yn-btn' + (val ? ' active-no' : '');
   document.getElementById('gr-repairs-no').className = 'yn-btn' + (!val ? ' active-yes' : '');
+}
+
+function setGRMakeSafe(val) {
+  grState.makeSafe = val;
+  document.getElementById('gr-makesafe-yes').className = 'yn-btn' + (val ? ' active-no' : '');
+  document.getElementById('gr-makesafe-no').className = 'yn-btn' + (!val ? ' active-yes' : '');
+  document.getElementById('gr-makesafe-notes-wrap').classList.toggle('hidden', !val);
 }
 
 function setGRUrgency(val) {
@@ -5167,6 +5527,8 @@ function generateGutterReportOnly() {
   grState.repairsNotes = document.getElementById('gr-repairs-notes')?.value || '';
   grState.men = document.getElementById('gr-men')?.value || '2';
   grState.hours = document.getElementById('gr-hours')?.value || '3 hours';
+  grState.makeSafe = document.getElementById('gr-makesafe-yes')?.classList.contains('active-no') || false;
+  grState.makeSafeNotes = document.getElementById('gr-makesafe-notes')?.value.trim() || '';
   if(grState.repairsNeeded) collectGRRepairItems();
 
   const roofLabel = GR_COND_LABELS[grState.roofCondition] || 'not assessed';
@@ -5176,6 +5538,11 @@ function generateGutterReportOnly() {
   let report = 'Gutter Clean Report\n\n';
   report += `After completing the gutter clean we found the roof to be in ${roofLabel} condition and the gutters to be in ${gutterLabel} condition, with ${repairsWord} obvious signs of repairs required.\n\n`;
   report += `── Job Details ──\nAccess: ${grState.access || 'Not specified'}\n`;
+
+  if(grState.makeSafe) {
+    report += `\n── Make Safe Works Completed ──\n`;
+    report += grState.makeSafeNotes ? `${grState.makeSafeNotes}\n` : 'Make safe works were carried out during this visit.\n';
+  }
 
   let adminBreakdown = '';
 
@@ -5288,7 +5655,8 @@ function resetGutterReportForm() {
   grState = {
     type: '', access: '', roofCondition: '', gutterCondition: '',
     repairsNeeded: false, repairsNotes: '', repairItems: [],
-    urgent: false, men: '2', hours: '3 hours'
+    urgent: false, men: '2', hours: '3 hours',
+    makeSafe: false, makeSafeNotes: ''
   };
   grCurrentSec = 0;
   grRepairItemCount = 0;
@@ -5304,6 +5672,13 @@ function resetGutterReportForm() {
   const repNo = document.getElementById('gr-repairs-no');
   if(repYes) repYes.className = 'yn-btn';
   if(repNo) repNo.className = 'yn-btn active-yes';
+
+  const msYes = document.getElementById('gr-makesafe-yes');
+  const msNo = document.getElementById('gr-makesafe-no');
+  if(msYes) msYes.className = 'yn-btn';
+  if(msNo) msNo.className = 'yn-btn active-yes';
+  document.getElementById('gr-makesafe-notes-wrap')?.classList.add('hidden');
+  if(document.getElementById('gr-makesafe-notes')) document.getElementById('gr-makesafe-notes').value = '';
 
   const urgYes = document.getElementById('gr-urgent-yes');
   const urgNo = document.getElementById('gr-urgent-no');
