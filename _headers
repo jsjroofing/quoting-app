@@ -1,0 +1,7 @@
+# Netlify custom headers.
+# prices.json is fetched cross-origin by the pricing calculator
+# (jsjpricing.netlify.app), so it needs CORS. no-cache forces
+# revalidation (ETag) so monthly price edits propagate on next load.
+/prices.json
+  Access-Control-Allow-Origin: *
+  Cache-Control: no-cache

@@ -1,8 +1,8 @@
 // Bump this version string every time you deploy an update.
 // Changing it forces old caches to be deleted and fresh files to be fetched.
 // New line
-const CACHE_VERSION = 'jsj-v15';
-const ASSETS = ['./index.html', './manifest.json', './icon-192.png', './icon-512.png', './logo.png'];
+const CACHE_VERSION = 'jsj-v16';
+const ASSETS = ['./index.html', './manifest.json', './icon-192.png', './icon-512.png', './logo.png', './prices.json'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE_VERSION).then(c => c.addAll(ASSETS)));
@@ -28,10 +28,13 @@ self.addEventListener('message', e => {
 self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
 
-  // Network-first for the app shell itself, so updates are picked up
-  // immediately instead of being stuck on whatever was cached at install
-  // time. Falls back to cache only if the network is unavailable (offline).
-  if (e.request.mode === 'navigate' || url.pathname.endsWith('index.html') || url.pathname === '/' ) {
+  // Network-first for the app shell and for prices.json (the central price
+  // file, edited on GitHub — must never be pinned to an old cached copy), so
+  // updates are picked up immediately instead of being stuck on whatever was
+  // cached at install time. Falls back to cache only if the network is
+  // unavailable (offline).
+  const isPrices = url.pathname.endsWith('/prices.json');
+  if (e.request.mode === 'navigate' || url.pathname.endsWith('index.html') || url.pathname === '/' || isPrices) {
     e.respondWith(
       fetch(e.request)
         .then(res => {
@@ -39,7 +42,8 @@ self.addEventListener('fetch', e => {
           caches.open(CACHE_VERSION).then(c => c.put(e.request, resClone));
           return res;
         })
-        .catch(() => caches.match(e.request).then(cached => cached || caches.match('./index.html')))
+        .catch(() => caches.match(e.request).then(cached =>
+          cached || (isPrices ? Response.error() : caches.match('./index.html'))))
     );
     return;
   }
