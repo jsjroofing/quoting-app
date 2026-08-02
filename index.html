@@ -984,8 +984,8 @@ select option{background:#fff;color:var(--color-text-primary);}
     </div>
     <div style="padding:16px;">
       <div style="display:flex;gap:10px;flex-wrap:wrap;">
-        <button class="btn-secondary" style="width:auto;" onclick="exportPricesJson()">📋 Copy prices.json to clipboard</button>
-        <button class="btn-secondary" style="width:auto;" onclick="resetToCentralPrices()">🔄 Use central prices on this device</button>
+        <button class="btn btn-secondary" style="width:auto;" onclick="exportPricesJson()">📋 Copy prices.json to clipboard</button>
+        <button class="btn btn-secondary" style="width:auto;" onclick="resetToCentralPrices()">🔄 Use central prices on this device</button>
       </div>
       <div style="margin-top:10px;font-size:12px;color:var(--color-text-secondary);line-height:1.6;background:var(--color-surface-secondary);border:1px solid var(--color-border-light);border-radius:var(--radius-md);padding:10px 12px;">
         Monthly price update: tap <strong>Copy prices.json</strong>, then paste over the contents of <strong>prices.json</strong> in the quoting-app repo on GitHub and commit to main. Netlify deploys automatically and both apps pick up the new prices on next open. Includes this device's rate overrides and item prices; unpriced items export as null.<br><br>
