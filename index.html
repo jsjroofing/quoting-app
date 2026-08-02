@@ -989,7 +989,7 @@ select option{background:#fff;color:var(--color-text-primary);}
       </div>
       <div style="margin-top:10px;font-size:12px;color:var(--color-text-secondary);line-height:1.6;background:var(--color-surface-secondary);border:1px solid var(--color-border-light);border-radius:var(--radius-md);padding:10px 12px;">
         Monthly price update: tap <strong>Copy prices.json</strong>, then paste over the contents of <strong>prices.json</strong> in the quoting-app repo on GitHub and commit to main. Netlify deploys automatically and both apps pick up the new prices on next open. Includes this device's rate overrides and item prices; unpriced items export as null.<br><br>
-        <strong>Use central prices</strong> clears every price override stored on this device (labour/GC/admin/harness rates and all item prices) so it follows prices.json from then on. Run it on each phone once the central file is seeded.
+        Every device moves onto the central prices automatically the first time it opens the app online after prices.json has real prices in it — no need to visit each phone. <strong>Use central prices</strong> is the manual version of the same thing: it clears every price override stored on this device (labour/GC/admin/harness rates and all item prices), including any set deliberately since.
       </div>
     </div>
   </div>
@@ -2218,6 +2218,63 @@ function getRemoteRate(key) {
   return (!isNaN(v) && v > 0) ? v : null;
 }
 
+const PRICES_MIGRATED_KEY = 'jsj_prices_migrated';
+
+/**
+ * One-time migration onto the central price file.
+ *
+ * Devices that were in the field before prices.json existed carry their own
+ * prices in localStorage, and those beat the central file. The first time a
+ * device sees a *seeded* prices.json, drop its local copies so it follows the
+ * shared prices from then on — no per-phone admin visit needed.
+ *
+ * Two safety rules:
+ *  - Does nothing until the central file actually has prices in it, so this
+ *    can never run against a file of nulls and leave a phone unpriced.
+ *  - Only clears a value the central file can supply. An item the central file
+ *    leaves null keeps its device price rather than silently becoming unpriced
+ *    and dropping out of quotes.
+ *
+ * Runs once per device. Deliberate admin overrides set afterwards are kept.
+ */
+function maybeMigrateToCentralPrices() {
+  if (localStorage.getItem(PRICES_MIGRATED_KEY)) return;
+  if (!remotePrices || !remotePrices.item_prices) return;
+
+  const central = remotePrices.item_prices;
+  const isPriced = (v) => typeof v === 'number' && isFinite(v);
+  const seeded = Object.keys(central).some(l => isPriced(central[l]));
+  if (!seeded) return; // central file not filled in yet — leave the device alone
+
+  let cleared = 0;
+  [['jsj_labour_rate','labour_rate'], ['jsj_gc_rate','gc_rate'],
+   ['jsj_admin_cost_rate','admin_cost_rate'], ['jsj_harness_cost_rate','harness_cost_rate']]
+    .forEach(([storageKey, rateKey]) => {
+      if (localStorage.getItem(storageKey) !== null && getRemoteRate(rateKey) !== null) {
+        localStorage.removeItem(storageKey); cleared++;
+      }
+    });
+
+  const prices = loadPrices();
+  let itemsChanged = false;
+  Object.keys(prices).forEach(label => {
+    if (isPriced(central[label])) { delete prices[label]; itemsChanged = true; cleared++; }
+  });
+  if (itemsChanged) savePrices(prices);
+
+  localStorage.setItem(PRICES_MIGRATED_KEY, remotePrices.updated || '1');
+
+  if (cleared > 0) {
+    syncLabourRateInputs(); syncAdminCostInputs(); syncHarnessCostInputs(); syncGCRateInputs();
+    ['', '-hub'].forEach(s => {
+      updateLabourRatePreview(s); updateAdminCostPreview(s); updateHarnessCostPreview(s); updateGCRatePreview(s);
+    });
+    const notify = () => { try { toast('Now using central JSJ prices ✓'); } catch(e) {} };
+    if (document.getElementById('toast')) notify();
+    else document.addEventListener('DOMContentLoaded', notify);
+  }
+}
+
 (function loadRemotePrices() {
   // Snapshot first so remote prices are available synchronously, even offline —
   // no async window where a quote could be generated against older values.
@@ -2225,12 +2282,14 @@ function getRemoteRate(key) {
     const snap = JSON.parse(localStorage.getItem('jsj_prices_json') || 'null');
     if (snap && typeof snap === 'object') remotePrices = snap;
   } catch(e) {}
+  maybeMigrateToCentralPrices();
   fetch('./prices.json', { cache: 'no-cache' })
     .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
     .then(data => {
       if (!data || typeof data !== 'object') return;
       remotePrices = data;
       try { localStorage.setItem('jsj_prices_json', JSON.stringify(data)); } catch(e) {}
+      maybeMigrateToCentralPrices();
     })
     .catch(() => {}); // offline / first-run-offline: hardcoded defaults apply
 })();
@@ -2246,6 +2305,7 @@ function resetToCentralPrices() {
   if (!confirm(msg)) return;
   ['jsj_labour_rate', 'jsj_gc_rate', 'jsj_admin_cost_rate', 'jsj_harness_cost_rate', 'jsj_prices']
     .forEach(k => localStorage.removeItem(k));
+  localStorage.setItem(PRICES_MIGRATED_KEY, (remotePrices && remotePrices.updated) || '1');
   syncLabourRateInputs(); syncAdminCostInputs(); syncHarnessCostInputs(); syncGCRateInputs();
   ['', '-hub'].forEach(s => {
     updateLabourRatePreview(s); updateAdminCostPreview(s); updateHarnessCostPreview(s); updateGCRatePreview(s);
