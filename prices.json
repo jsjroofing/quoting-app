@@ -10,7 +10,6 @@
   },
   "item_prices": {
     "Replace broken tiles": null,
-    "Broken tiles": null,
     "Repoint ridge caps": null,
     "Re-bed and repoint ridge caps": null,
     "Install AquaFlash flashing": null,
@@ -53,6 +52,7 @@
     "Loose or missing screw fixings": null,
     "Failed/deteriorated ridge capping": null,
     "Failed flashing": null,
-    "Failed sealant at roof penetration": null
+    "Failed sealant at roof penetration": null,
+    "Broken tiles": null
   }
 }
