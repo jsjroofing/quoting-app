@@ -974,6 +974,26 @@ select option{background:#fff;color:var(--color-text-primary);}
     </div>
   </div>
 
+  <!-- Central price file export (prices.json is the single source of truth) -->
+  <div class="admin-section" style="margin-bottom:16px;">
+    <div class="admin-section-header">
+      <div>
+        <div class="admin-section-title">📤 Export prices.json</div>
+        <div style="font-size:11px;color:rgba(255,255,255,.4);margin-top:2px;">Central prices live in prices.json on GitHub — both apps read it. This button builds the complete file from this device's current prices</div>
+      </div>
+    </div>
+    <div style="padding:16px;">
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="btn-secondary" style="width:auto;" onclick="exportPricesJson()">📋 Copy prices.json to clipboard</button>
+        <button class="btn-secondary" style="width:auto;" onclick="resetToCentralPrices()">🔄 Use central prices on this device</button>
+      </div>
+      <div style="margin-top:10px;font-size:12px;color:var(--color-text-secondary);line-height:1.6;background:var(--color-surface-secondary);border:1px solid var(--color-border-light);border-radius:var(--radius-md);padding:10px 12px;">
+        Monthly price update: tap <strong>Copy prices.json</strong>, then paste over the contents of <strong>prices.json</strong> in the quoting-app repo on GitHub and commit to main. Netlify deploys automatically and both apps pick up the new prices on next open. Includes this device's rate overrides and item prices; unpriced items export as null.<br><br>
+        <strong>Use central prices</strong> clears every price override stored on this device (labour/GC/admin/harness rates and all item prices) so it follows prices.json from then on. Run it on each phone once the central file is seeded.
+      </div>
+    </div>
+  </div>
+
   <!-- AI Polish Proxy (applies across all report outputs) -->
   <div class="admin-section" style="margin-bottom:16px;">
     <div class="admin-section-header">
@@ -2006,6 +2026,11 @@ const DEFAULT_REPAIRS = [
   'Other (manual entry)'
 ];
 
+// Every label that can carry a price. 'Broken tiles' is a Roof Inspection
+// tile item that has no counterpart string in DEFAULT_REPAIRS, so it is
+// appended explicitly — keep this in sync with prices.json.
+const PRICEABLE_LABELS = [...DEFAULT_REPAIRS.filter(l => l !== 'Other (manual entry)'), 'Broken tiles'];
+
 // ==================== CUSTOM OPTIONS (persisted) ====================
 function loadCustom(key) {
   try { return JSON.parse(localStorage.getItem('jsj_custom_'+key) || '[]'); } catch(e){ return []; }
@@ -2019,7 +2044,9 @@ const DEFAULT_LABOUR_RATE = 400;
 
 function getLabourRate() {
   const stored = parseFloat(localStorage.getItem('jsj_labour_rate'));
-  return (!isNaN(stored) && stored > 0) ? stored : DEFAULT_LABOUR_RATE;
+  if (!isNaN(stored) && stored > 0) return stored;
+  const remote = getRemoteRate('labour_rate');
+  return remote !== null ? remote : DEFAULT_LABOUR_RATE;
 }
 
 function saveLabourRate(suffix) {
@@ -2060,11 +2087,15 @@ const DEFAULT_HARNESS_COST_RATE = 160;
 
 function getAdminCostRate() {
   const stored = parseFloat(localStorage.getItem('jsj_admin_cost_rate'));
-  return (!isNaN(stored) && stored > 0) ? stored : DEFAULT_ADMIN_COST_RATE;
+  if (!isNaN(stored) && stored > 0) return stored;
+  const remote = getRemoteRate('admin_cost_rate');
+  return remote !== null ? remote : DEFAULT_ADMIN_COST_RATE;
 }
 function getHarnessCostRate() {
   const stored = parseFloat(localStorage.getItem('jsj_harness_cost_rate'));
-  return (!isNaN(stored) && stored > 0) ? stored : DEFAULT_HARNESS_COST_RATE;
+  if (!isNaN(stored) && stored > 0) return stored;
+  const remote = getRemoteRate('harness_cost_rate');
+  return remote !== null ? remote : DEFAULT_HARNESS_COST_RATE;
 }
 
 /**
@@ -2114,7 +2145,11 @@ function updateAdminCostPreview(suffix) {
 function initAdminCostRateAdmin(suffix) {
   suffix = suffix || '';
   const input = document.getElementById('admin-cost-rate-input'+suffix);
-  if(input) { input.value = getAdminCostRate(); updateAdminCostPreview(suffix); }
+  if(input) {
+    input.placeholder = getRemoteRate('admin_cost_rate') !== null ? getRemoteRate('admin_cost_rate') : DEFAULT_ADMIN_COST_RATE;
+    input.value = getAdminCostRate();
+    updateAdminCostPreview(suffix);
+  }
 }
 
 function saveHarnessCostRate(suffix) {
@@ -2149,7 +2184,11 @@ function updateHarnessCostPreview(suffix) {
 function initHarnessCostRateAdmin(suffix) {
   suffix = suffix || '';
   const input = document.getElementById('harness-cost-rate-input'+suffix);
-  if(input) { input.value = getHarnessCostRate(); updateHarnessCostPreview(suffix); }
+  if(input) {
+    input.placeholder = getRemoteRate('harness_cost_rate') !== null ? getRemoteRate('harness_cost_rate') : DEFAULT_HARNESS_COST_RATE;
+    input.value = getHarnessCostRate();
+    updateHarnessCostPreview(suffix);
+  }
 }
 
 function syncLabourRateInputs() {
@@ -2164,10 +2203,104 @@ function initLabourRateAdmin(suffix) {
   suffix = suffix || '';
   const input = document.getElementById('labour-rate-input'+suffix);
   if(input) {
+    input.placeholder = getRemoteRate('labour_rate') !== null ? getRemoteRate('labour_rate') : DEFAULT_LABOUR_RATE;
     input.value = getLabourRate();
     updateLabourRatePreview(suffix);
   }
 }
+// ==================== REMOTE PRICES (prices.json) ====================
+// Single source of truth, hand-edited on GitHub and deployed with the app.
+// Precedence everywhere: device localStorage override > prices.json > hardcoded default.
+let remotePrices = null;
+
+function getRemoteRate(key) {
+  const v = remotePrices && remotePrices.rates ? parseFloat(remotePrices.rates[key]) : NaN;
+  return (!isNaN(v) && v > 0) ? v : null;
+}
+
+(function loadRemotePrices() {
+  // Snapshot first so remote prices are available synchronously, even offline —
+  // no async window where a quote could be generated against older values.
+  try {
+    const snap = JSON.parse(localStorage.getItem('jsj_prices_json') || 'null');
+    if (snap && typeof snap === 'object') remotePrices = snap;
+  } catch(e) {}
+  fetch('./prices.json', { cache: 'no-cache' })
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(data => {
+      if (!data || typeof data !== 'object') return;
+      remotePrices = data;
+      try { localStorage.setItem('jsj_prices_json', JSON.stringify(data)); } catch(e) {}
+    })
+    .catch(() => {}); // offline / first-run-offline: hardcoded defaults apply
+})();
+
+// Clears every price override stored on this device so it follows
+// prices.json (with the hardcoded constants as the offline fallback).
+// Deliberately does NOT touch custom item lists, saved reports, or settings.
+function resetToCentralPrices() {
+  const hasCentral = remotePrices && remotePrices.rates;
+  const msg = hasCentral
+    ? "Clear this device's price overrides (labour/GC/admin/harness rates and all item prices)? It will use the central prices.json values from now on."
+    : "Central prices.json hasn't loaded on this device yet (offline?). Clearing now would leave items unpriced until it loads. Clear anyway?";
+  if (!confirm(msg)) return;
+  ['jsj_labour_rate', 'jsj_gc_rate', 'jsj_admin_cost_rate', 'jsj_harness_cost_rate', 'jsj_prices']
+    .forEach(k => localStorage.removeItem(k));
+  syncLabourRateInputs(); syncAdminCostInputs(); syncHarnessCostInputs(); syncGCRateInputs();
+  ['', '-hub'].forEach(s => {
+    updateLabourRatePreview(s); updateAdminCostPreview(s); updateHarnessCostPreview(s); updateGCRatePreview(s);
+  });
+  toast('Device now follows central prices ✓');
+}
+
+// Builds the complete prices.json from this device's effective prices and
+// copies it to the clipboard, ready to paste into the GitHub editor.
+function exportPricesJson() {
+  const labels = new Set(PRICEABLE_LABELS);
+  // Keep any labels already in the central file (e.g. custom items exported
+  // from another device) so a re-export never drops them.
+  if (remotePrices && remotePrices.item_prices) {
+    Object.keys(remotePrices.item_prices).forEach(l => labels.add(l));
+  }
+  // This device's custom items, but only ones that actually carry a price.
+  const customLabels = [
+    ...loadCustom('repairs'),
+    ...riLoadCustomItems('tile').map(i => i.label),
+    ...riLoadCustomItems('metal').map(i => i.label)
+  ];
+  customLabels.forEach(l => { if (getItemPrice(l) !== null) labels.add(l); });
+
+  const item_prices = {};
+  [...labels].forEach(l => {
+    const p = getItemPrice(l);
+    item_prices[l] = (p !== null && isFinite(p)) ? p : null;
+  });
+
+  const rubbish = getRemoteRate('rubbish_cost');
+  const out = {
+    _readme: "JSJ price file — single source of truth. Edit numbers, commit to main (quoting-app repo), Netlify deploys automatically. 'rates' feed both the quoting app and the pricing calculator; 'item_prices' feed the quoting app only. null = unpriced (item omitted from quotes) — use null, not 0. Numbers must be unquoted. Do not rename keys or labels.",
+    updated: new Date().toISOString().slice(0, 10),
+    rates: {
+      labour_rate: getLabourRate(),
+      gc_rate: getGCRate(),
+      admin_cost_rate: getAdminCostRate(),
+      harness_cost_rate: getHarnessCostRate(),
+      // The quoting app never uses rubbish_cost (pricing calculator only) —
+      // pass it through unchanged so an export can't lose it.
+      rubbish_cost: rubbish !== null ? rubbish : 66
+    },
+    item_prices
+  };
+  const json = JSON.stringify(out, null, 2);
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(json)
+      .then(() => toast('prices.json copied — paste into GitHub ✓'))
+      .catch(() => prompt('Copy the file contents below:', json));
+  } else {
+    prompt('Copy the file contents below:', json);
+  }
+}
+
 function loadPrices() {
   try { return JSON.parse(localStorage.getItem('jsj_prices') || '{}'); } catch(e){ return {}; }
 }
@@ -2176,7 +2309,16 @@ function savePrices(obj) {
 }
 function getItemPrice(label) {
   const prices = loadPrices();
-  return prices[label] !== undefined ? parseFloat(prices[label]) : null;
+  if (prices[label] !== undefined) return parseFloat(prices[label]);
+  const remote = remotePrices && remotePrices.item_prices ? remotePrices.item_prices[label] : null;
+  return (typeof remote === 'number' && isFinite(remote)) ? remote : null;
+}
+// Admin-grid placeholder hint: shows the central prices.json price behind an
+// empty override box. Never rendered into the input's value — that would turn
+// the central price into a device override on the first keystroke.
+function remoteItemPriceHint(label) {
+  const remote = remotePrices && remotePrices.item_prices ? remotePrices.item_prices[label] : null;
+  return (typeof remote === 'number' && isFinite(remote)) ? String(remote) : '0.00';
 }
 function setItemPrice(label, val) {
   const prices = loadPrices();
@@ -2551,7 +2693,7 @@ function renderAdminSection(prefix, key) {
           <span class="admin-option-tag">Default</span>
           <div style="display:flex;align-items:center;gap:4px;">
             <span style="color:var(--text3);font-size:13px;">$</span>
-            <input type="number" min="0" step="0.01" placeholder="0.00"
+            <input type="number" min="0" step="0.01" placeholder="${remoteItemPriceHint(label)}"
               value="${price}"
               style="width:80px;font-size:14px;padding:5px 8px;background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);"
               onchange="setItemPrice('${escapedLabel}', this.value)"
@@ -2580,7 +2722,7 @@ function renderAdminSection(prefix, key) {
           <span class="admin-option-tag custom">Custom</span>
           <div style="display:flex;align-items:center;gap:4px;">
             <span style="color:var(--text3);font-size:13px;">$</span>
-            <input type="number" min="0" step="0.01" placeholder="0.00"
+            <input type="number" min="0" step="0.01" placeholder="${remoteItemPriceHint(label)}"
               value="${price}"
               style="width:80px;font-size:14px;padding:5px 8px;background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);"
               onchange="setItemPrice('${escapedLabel}', this.value)"
@@ -3196,7 +3338,9 @@ let gcCurrentSec = 0;
 
 function getGCRate() {
   const stored = parseFloat(localStorage.getItem('jsj_gc_rate'));
-  return (!isNaN(stored) && stored > 0) ? stored : DEFAULT_GC_RATE;
+  if (!isNaN(stored) && stored > 0) return stored;
+  const remote = getRemoteRate('gc_rate');
+  return remote !== null ? remote : DEFAULT_GC_RATE;
 }
 function saveGCRate(suffix) {
   suffix = suffix || '';
@@ -3225,7 +3369,11 @@ function syncGCRateInputs() {
 function initGCAdminRate(suffix) {
   suffix = suffix || '';
   const input = document.getElementById('gc-rate-input'+suffix);
-  if(input) { input.value = getGCRate(); updateGCRatePreview(suffix); }
+  if(input) {
+    input.placeholder = getRemoteRate('gc_rate') !== null ? getRemoteRate('gc_rate') : DEFAULT_GC_RATE;
+    input.value = getGCRate();
+    updateGCRatePreview(suffix);
+  }
 }
 
 function setGCScreen(val) {
@@ -4124,7 +4272,7 @@ function riRenderAdminSection(kind) {
         <span class="admin-option-tag">Default</span>
         <div style="display:flex;align-items:center;gap:4px;">
           <span style="color:var(--color-text-tertiary);font-size:13px;">$</span>
-          <input type="number" min="0" step="0.01" placeholder="0.00" value="${price}"
+          <input type="number" min="0" step="0.01" placeholder="${remoteItemPriceHint(item.label)}" value="${price}"
             style="width:80px;font-size:14px;padding:5px 8px;background:var(--color-surface-primary);border:1px solid var(--color-border-light);border-radius:6px;color:var(--color-text-primary);"
             onchange="setItemPrice('${escLabel}', this.value)" oninput="setItemPrice('${escLabel}', this.value)"/>
         </div>
@@ -4142,7 +4290,7 @@ function riRenderAdminSection(kind) {
         <span class="admin-option-tag custom">Custom</span>
         <div style="display:flex;align-items:center;gap:4px;">
           <span style="color:var(--color-text-tertiary);font-size:13px;">$</span>
-          <input type="number" min="0" step="0.01" placeholder="0.00" value="${price}"
+          <input type="number" min="0" step="0.01" placeholder="${remoteItemPriceHint(item.label)}" value="${price}"
             style="width:80px;font-size:14px;padding:5px 8px;background:var(--color-surface-primary);border:1px solid var(--color-border-light);border-radius:6px;color:var(--color-text-primary);"
             onchange="setItemPrice('${escLabel}', this.value)" oninput="setItemPrice('${escLabel}', this.value)"/>
         </div>
