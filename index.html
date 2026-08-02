@@ -983,9 +983,13 @@ select option{background:#fff;color:var(--color-text-primary);}
       </div>
     </div>
     <div style="padding:16px;">
-      <button class="btn-secondary" style="width:auto;" onclick="exportPricesJson()">📋 Copy prices.json to clipboard</button>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="btn-secondary" style="width:auto;" onclick="exportPricesJson()">📋 Copy prices.json to clipboard</button>
+        <button class="btn-secondary" style="width:auto;" onclick="resetToCentralPrices()">🔄 Use central prices on this device</button>
+      </div>
       <div style="margin-top:10px;font-size:12px;color:var(--color-text-secondary);line-height:1.6;background:var(--color-surface-secondary);border:1px solid var(--color-border-light);border-radius:var(--radius-md);padding:10px 12px;">
-        Monthly price update: tap this button, then paste over the contents of <strong>prices.json</strong> in the quoting-app repo on GitHub and commit to main. Netlify deploys automatically and both apps pick up the new prices on next open. Includes this device's rate overrides and item prices; unpriced items export as null.
+        Monthly price update: tap <strong>Copy prices.json</strong>, then paste over the contents of <strong>prices.json</strong> in the quoting-app repo on GitHub and commit to main. Netlify deploys automatically and both apps pick up the new prices on next open. Includes this device's rate overrides and item prices; unpriced items export as null.<br><br>
+        <strong>Use central prices</strong> clears every price override stored on this device (labour/GC/admin/harness rates and all item prices) so it follows prices.json from then on. Run it on each phone once the central file is seeded.
       </div>
     </div>
   </div>
@@ -2230,6 +2234,24 @@ function getRemoteRate(key) {
     })
     .catch(() => {}); // offline / first-run-offline: hardcoded defaults apply
 })();
+
+// Clears every price override stored on this device so it follows
+// prices.json (with the hardcoded constants as the offline fallback).
+// Deliberately does NOT touch custom item lists, saved reports, or settings.
+function resetToCentralPrices() {
+  const hasCentral = remotePrices && remotePrices.rates;
+  const msg = hasCentral
+    ? "Clear this device's price overrides (labour/GC/admin/harness rates and all item prices)? It will use the central prices.json values from now on."
+    : "Central prices.json hasn't loaded on this device yet (offline?). Clearing now would leave items unpriced until it loads. Clear anyway?";
+  if (!confirm(msg)) return;
+  ['jsj_labour_rate', 'jsj_gc_rate', 'jsj_admin_cost_rate', 'jsj_harness_cost_rate', 'jsj_prices']
+    .forEach(k => localStorage.removeItem(k));
+  syncLabourRateInputs(); syncAdminCostInputs(); syncHarnessCostInputs(); syncGCRateInputs();
+  ['', '-hub'].forEach(s => {
+    updateLabourRatePreview(s); updateAdminCostPreview(s); updateHarnessCostPreview(s); updateGCRatePreview(s);
+  });
+  toast('Device now follows central prices ✓');
+}
 
 // Builds the complete prices.json from this device's effective prices and
 // copies it to the clipboard, ready to paste into the GitHub editor.
