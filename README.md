@@ -52,10 +52,23 @@ calculator at jsjpricing.netlify.app read it.
    (the service worker always fetches `prices.json` network-first).
 
 Price precedence on each device: admin-panel override (localStorage) →
-`prices.json` → hardcoded fallback baked into `index.html`. Devices that
-already have local prices set keep them until cleared — the **Use central
-prices on this device** button in the Admin hub clears all of a device's
-price overrides in one tap so it follows `prices.json`. Note that
+`prices.json` → hardcoded fallback baked into `index.html`.
+
+**Automatic one-time migration.** Phones that were in use before
+`prices.json` existed carry their own prices in localStorage, which would
+otherwise keep beating the central file forever. The first time a device
+opens the app online after `prices.json` has real prices in it, it clears
+those local copies automatically and follows the central file from then
+on — nothing to do on each phone. Two safety rules: it does nothing while
+the central file is still all `null`s (so a phone can never be left
+unpriced), and it only clears a price the central file can actually
+supply — an item left `null` centrally keeps its device price rather than
+silently dropping out of quotes. It runs once per device; overrides set
+deliberately afterwards are kept. The **Use central prices on this
+device** button in the Admin hub does the same thing on demand, and
+clears everything including later overrides.
+
+Note that
 clearing a per-item price in the admin panel now means "use the shared
 `prices.json` price" rather than "unpriced" — to force $0, enter 0
 explicitly. Items that are `null` in `prices.json` and have no device
