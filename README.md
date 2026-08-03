@@ -54,19 +54,27 @@ calculator at jsjpricing.netlify.app read it.
 Price precedence on each device: admin-panel override (localStorage) →
 `prices.json` → hardcoded fallback baked into `index.html`.
 
-**Automatic one-time migration.** Phones that were in use before
-`prices.json` existed carry their own prices in localStorage, which would
-otherwise keep beating the central file forever. The first time a device
-opens the app online after `prices.json` has real prices in it, it clears
-those local copies automatically and follows the central file from then
-on — nothing to do on each phone. Two safety rules: it does nothing while
-the central file is still all `null`s (so a phone can never be left
-unpriced), and it only clears a price the central file can actually
-supply — an item left `null` centrally keeps its device price rather than
-silently dropping out of quotes. It runs once per device; overrides set
-deliberately afterwards are kept. The **Use central prices on this
-device** button in the Admin hub does the same thing on demand, and
-clears everything including later overrides.
+**Automatic migration.** Phones that were in use before `prices.json`
+existed carry their own prices in localStorage, which would otherwise
+keep beating the central file forever. When a device opens the app online
+and the central prices have changed, it clears its own copies
+automatically and follows the central file — nothing to do on each phone.
+
+The safety rule is per value: a device copy is only cleared when the
+central file can actually supply that value. Rates always converge (the
+central file always has them). An item price is only cleared when the
+central file prices that item — an item left `null` centrally keeps its
+device price rather than silently dropping out of quotes. So an all-null
+`item_prices` list is harmless: rates still converge, item prices are
+left alone, and if items are priced centrally later, devices pick that up
+on the next publish.
+
+Between publishes a deliberate admin override wins as usual; the next
+change to `prices.json` brings the device back onto the central prices.
+Change detection uses a content signature, so it still works if the
+`updated` date is forgotten. The **Use central prices on this device**
+button in the Admin hub forces it immediately and clears everything,
+including item prices the central file leaves `null`.
 
 Note that
 clearing a per-item price in the admin panel now means "use the shared

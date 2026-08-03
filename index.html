@@ -2228,23 +2228,33 @@ const PRICES_MIGRATED_KEY = 'jsj_prices_migrated';
  * device sees a *seeded* prices.json, drop its local copies so it follows the
  * shared prices from then on — no per-phone admin visit needed.
  *
- * Two safety rules:
- *  - Does nothing until the central file actually has prices in it, so this
- *    can never run against a file of nulls and leave a phone unpriced.
- *  - Only clears a value the central file can supply. An item the central file
- *    leaves null keeps its device price rather than silently becoming unpriced
- *    and dropping out of quotes.
+ * The safety rule is per value, not global: a device copy is only ever cleared
+ * when the central file can actually supply that value. A rate is only cleared
+ * when the central file has a valid one (it always does), and an item price is
+ * only cleared when the central file prices that item — an item left null
+ * centrally keeps its device price rather than silently becoming unpriced and
+ * dropping out of quotes. That makes an all-null item list harmless: rates
+ * still converge, item prices are left alone.
  *
- * Runs once per device. Deliberate admin overrides set afterwards are kept.
+ * Re-runs whenever the central prices actually change (tracked by a content
+ * signature, so it works even if the 'updated' date is forgotten). Between
+ * publishes, a deliberate admin override wins as usual; the next publish
+ * brings the device back onto the central prices.
  */
-function maybeMigrateToCentralPrices() {
-  if (localStorage.getItem(PRICES_MIGRATED_KEY)) return;
-  if (!remotePrices || !remotePrices.item_prices) return;
+function pricesSignature() {
+  const s = JSON.stringify({ r: remotePrices.rates || null, i: remotePrices.item_prices || null });
+  let h = 5381;
+  for (let i = 0; i < s.length; i++) h = ((h * 33) ^ s.charCodeAt(i)) >>> 0;
+  return String(h);
+}
 
-  const central = remotePrices.item_prices;
+function maybeMigrateToCentralPrices() {
+  if (!remotePrices || !remotePrices.rates) return;
+  const signature = pricesSignature();
+  if (localStorage.getItem(PRICES_MIGRATED_KEY) === signature) return;
+
+  const central = remotePrices.item_prices || {};
   const isPriced = (v) => typeof v === 'number' && isFinite(v);
-  const seeded = Object.keys(central).some(l => isPriced(central[l]));
-  if (!seeded) return; // central file not filled in yet — leave the device alone
 
   let cleared = 0;
   [['jsj_labour_rate','labour_rate'], ['jsj_gc_rate','gc_rate'],
@@ -2262,7 +2272,7 @@ function maybeMigrateToCentralPrices() {
   });
   if (itemsChanged) savePrices(prices);
 
-  localStorage.setItem(PRICES_MIGRATED_KEY, remotePrices.updated || '1');
+  localStorage.setItem(PRICES_MIGRATED_KEY, signature);
 
   if (cleared > 0) {
     syncLabourRateInputs(); syncAdminCostInputs(); syncHarnessCostInputs(); syncGCRateInputs();
@@ -2305,7 +2315,7 @@ function resetToCentralPrices() {
   if (!confirm(msg)) return;
   ['jsj_labour_rate', 'jsj_gc_rate', 'jsj_admin_cost_rate', 'jsj_harness_cost_rate', 'jsj_prices']
     .forEach(k => localStorage.removeItem(k));
-  localStorage.setItem(PRICES_MIGRATED_KEY, (remotePrices && remotePrices.updated) || '1');
+  if (remotePrices && remotePrices.rates) localStorage.setItem(PRICES_MIGRATED_KEY, pricesSignature());
   syncLabourRateInputs(); syncAdminCostInputs(); syncHarnessCostInputs(); syncGCRateInputs();
   ['', '-hub'].forEach(s => {
     updateLabourRatePreview(s); updateAdminCostPreview(s); updateHarnessCostPreview(s); updateGCRatePreview(s);
